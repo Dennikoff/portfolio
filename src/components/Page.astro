@@ -1,0 +1,26 @@
+---
+import Hero from "./Hero.astro";
+import Marquee from "./Marquee.astro";
+import About from "./About.astro";
+import Pricing from "./Pricing.astro";
+import Projects from "./Projects.astro";
+import Process from "./Process.astro";
+import Contact from "./Contact.astro";
+import type { Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+{/* Порядок секций и геометрия перекрытия — см. CLAUDE.md. Белая вставка ровно одна (Pricing). */}
+<Hero lang={lang} />
+<Marquee lang={lang} />
+<main>
+  <About lang={lang} />
+  <Pricing lang={lang} />
+  <Projects lang={lang} />
+  <Process lang={lang} />
+</main>
+<Contact lang={lang} />

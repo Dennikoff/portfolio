@@ -90,6 +90,28 @@
   color: transparent;
 }
 
+/* ─── ContactButton: пересобранный под аква/оранж градиент (§5 ТЗ) ───────── */
+.contact-btn {
+  background: linear-gradient(123deg, #0c1f1f 7%, #2e7b7e 37%, #44a1a4 72%, #ff9a00 100%);
+  box-shadow:
+    0 4px 4px rgba(46, 123, 126, 0.25),
+    4px 4px 12px #2e7b7e inset;
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+
+/* ─── Плейсхолдеры ассетов (до получения реальных скриншотов, Фаза 5) ────── */
+.ph {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      rgba(215, 226, 234, 0.03) 0 10px,
+      transparent 10px 20px
+    ),
+    rgba(215, 226, 234, 0.04);
+  border: 1px solid rgba(215, 226, 234, 0.12);
+}
+
 /* ─── Reduced motion: гасим плавный скролл на уровне CSS ────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html {

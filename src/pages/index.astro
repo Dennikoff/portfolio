@@ -1,19 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
+import Page from "../components/Page.astro";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+const lang: Lang = "ru";
+const t = useTranslations(lang);
 ---
 
-<Base title="Denis Kharke — фронтенд-разработчик" lang="ru">
-  <main class="min-h-screen grid place-items-center px-6 text-center">
-    <div>
-      <p class="font-mono text-aqua text-sm uppercase tracking-widest mb-4">
-        каркас · фаза 0
-      </p>
-      <h1 class="hero-heading font-black uppercase leading-none tracking-tight text-[14vw]">
-        denis kharke
-      </h1>
-      <p class="text-ink-secondary mt-6">
-        Проект инициализирован. Шрифты, токены и сборка работают.
-      </p>
-    </div>
-  </main>
+<Base title={`${t.name} — фронтенд-разработчик`} lang={lang} description={t.heroSub}>
+  <Page lang={lang} />
 </Base>

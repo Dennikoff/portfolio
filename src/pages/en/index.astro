@@ -1,0 +1,12 @@
+---
+import Base from "../../layouts/Base.astro";
+import Page from "../../components/Page.astro";
+import { useTranslations, type Lang } from "../../i18n/utils";
+
+const lang: Lang = "en";
+const t = useTranslations(lang);
+---
+
+<Base title={`${t.name} — frontend developer`} lang={lang} description={t.heroSub}>
+  <Page lang={lang} />
+</Base>

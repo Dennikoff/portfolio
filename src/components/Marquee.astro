@@ -1,0 +1,35 @@
+---
+import Placeholder from "./Placeholder.astro";
+import { projLinks, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const shot = lang === "ru" ? "скриншот" : "screenshot";
+
+// До реальных ассетов (Фаза 5) — по 5-6 плейсхолдеров на ряд с хостами проектов.
+// В Фазе 4 массив утроится и поедет по скроллу; сейчас статичный ряд с overflow-clip.
+const rowA = projLinks;
+const rowB = [...projLinks].reverse();
+---
+
+<section
+  class="bg-bg pt-24 sm:pt-32 md:pt-40 pb-10 overflow-x-clip"
+  aria-hidden="true"
+  style="content-visibility: auto"
+>
+  {
+    [rowA, rowB].map((row) => (
+      <div class="flex gap-3 mb-3 last:mb-0 w-max">
+        {row.map((p) => (
+          <Placeholder
+            label={`${shot}: ${p.host}`}
+            ratio="420 / 270"
+            class="w-[420px] shrink-0 rounded-2xl"
+          />
+        ))}
+      </div>
+    ))
+  }
+</section>

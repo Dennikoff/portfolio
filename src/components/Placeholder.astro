@@ -1,0 +1,23 @@
+---
+// Плейсхолдер ассета: держит правильную геометрию (aspect-ratio) до получения
+// реальных скриншотов (Фаза 5). Радиус/размеры задаются через class снаружи.
+interface Props {
+  label?: string;
+  ratio?: string; // напр. "420 / 270"
+  class?: string;
+}
+const { label, ratio, class: cls } = Astro.props;
+---
+
+<div
+  class:list={["ph grid place-items-center overflow-hidden text-center", cls]}
+  style={ratio ? `aspect-ratio:${ratio}` : undefined}
+>
+  {
+    label && (
+      <span class="font-mono text-[11px] sm:text-xs text-ink-secondary/70 px-3">
+        {label}
+      </span>
+    )
+  }
+</div>

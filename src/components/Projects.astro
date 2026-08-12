@@ -1,0 +1,91 @@
+---
+import Placeholder from "./Placeholder.astro";
+import GhostButton from "./GhostButton.astro";
+import { useTranslations, projLinks, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const heading = lang === "ru" ? "работы" : "work";
+
+// Зип локализованных мета-данных с общими ссылками по индексу.
+const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
+---
+
+<section
+  id="work"
+  aria-labelledby="work-heading"
+  class="relative z-10 -mt-10 rounded-t-[40px] bg-bg px-5 py-20 sm:-mt-12 sm:rounded-t-[50px] sm:px-8 md:-mt-14 md:rounded-t-[60px] md:px-10 md:py-32"
+  style="content-visibility: auto"
+>
+  <h2
+    id="work-heading"
+    class="mb-12 text-center font-black uppercase leading-none tracking-tight hero-heading sm:mb-16 md:mb-20"
+    style="font-size: clamp(3rem, 12vw, 160px)"
+  >
+    {heading}
+  </h2>
+
+  {/* В Фазе 4 карточки станут sticky-стеком; сейчас — просто в потоке. */}
+  <div class="mx-auto flex max-w-6xl flex-col gap-8 sm:gap-10">
+    {
+      projects.map((p, i) => (
+        <article
+          class="rounded-[40px] border-2 border-ink bg-bg p-4 sm:rounded-[50px] sm:p-6 md:rounded-[60px] md:p-8"
+        >
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <span
+              class="font-black leading-none text-ink"
+              style="font-size: clamp(2.5rem, 7vw, 90px)"
+              aria-hidden="true"
+            >
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span class="rounded-full border border-aqua/40 px-3 py-1 font-mono text-xs uppercase text-aqua">
+              {p.tag}
+            </span>
+            <h3
+              class="font-medium uppercase text-ink"
+              style="font-size: clamp(1rem, 2.2vw, 2.1rem)"
+            >
+              {p.name}
+            </h3>
+            <span class="font-mono text-sm text-aqua">{p.host}</span>
+            <GhostButton
+              href={p.url}
+              target="_blank"
+              rel="noopener"
+              class="ml-auto !px-6 !py-2.5 !text-sm"
+            >
+              {t.openSite} ↗
+            </GhostButton>
+          </div>
+
+          <p class="mt-4 max-w-2xl text-ink-secondary">{p.desc}</p>
+
+          <div class="mt-6 flex flex-col gap-4 md:flex-row">
+            <div class="flex flex-col gap-4 md:w-2/5">
+              <Placeholder
+                label={p.shot}
+                class="w-full rounded-3xl"
+                ratio="16 / 9"
+              />
+              <Placeholder
+                label={p.shot}
+                class="w-full rounded-3xl"
+                ratio="4 / 5"
+              />
+            </div>
+            <Placeholder
+              label={p.shot}
+              class="w-full rounded-3xl md:w-3/5"
+              ratio="3 / 4"
+            />
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

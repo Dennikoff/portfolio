@@ -1,0 +1,43 @@
+---
+import { languages, languageLabels, localizedPath, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+<div class="lang-switch inline-flex items-center gap-1 font-mono text-sm" role="group" aria-label="Language">
+  {
+    languages.map((l, i) => (
+      <>
+        {i > 0 && <span class="text-ink-secondary/40" aria-hidden="true">/</span>}
+        <a
+          href={localizedPath(l)}
+          data-lang={l}
+          aria-current={l === lang ? "true" : undefined}
+          class:list={[
+            "px-1 transition-colors hover:text-aqua-hover",
+            l === lang ? "text-aqua" : "text-ink-secondary",
+          ]}
+        >
+          {languageLabels[l]}
+        </a>
+      </>
+    ))
+  }
+</div>
+
+<script>
+  // Запоминаем выбор языка и при заходе на дефолтный роут уводим на предпочтённую локаль.
+  const KEY = "lang";
+  const links = document.querySelectorAll<HTMLAnchorElement>(".lang-switch [data-lang]");
+  links.forEach((a) =>
+    a.addEventListener("click", () => localStorage.setItem(KEY, a.dataset.lang || "ru")),
+  );
+
+  const pref = localStorage.getItem(KEY);
+  const path = location.pathname;
+  if (pref === "en" && path === "/") location.replace("/en/");
+  else if (pref === "ru" && path === "/en/") location.replace("/");
+</script>

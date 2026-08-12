@@ -1,0 +1,87 @@
+---
+import { useTranslations, email, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section
+  id="pricing"
+  aria-labelledby="pricing-heading"
+  class="bg-paper rounded-t-[40px] px-5 py-20 text-paper-ink sm:rounded-t-[50px] sm:px-8 sm:py-24 md:rounded-t-[60px] md:px-10 md:py-32"
+>
+  <h2
+    id="pricing-heading"
+    class="mb-4 text-center font-black uppercase leading-none tracking-tight text-bg"
+    style="font-size: clamp(3rem, 12vw, 160px)"
+  >
+    {t.pricingTitle}
+  </h2>
+  <p
+    class="mx-auto mb-16 max-w-[560px] text-center text-paper-secondary sm:mb-20 md:mb-28"
+  >
+    {t.pricingSub}
+  </p>
+
+  <div class="mx-auto max-w-5xl">
+    {
+      t.services.map((s, i) => (
+        <div
+          class:list={[
+            "flex flex-col gap-4 py-8 sm:flex-row sm:gap-8 md:gap-12 sm:py-10 md:py-12",
+            i > 0 && "border-t border-bg/15",
+          ]}
+        >
+          <span
+            class="shrink-0 font-black leading-none text-bg"
+            style="font-size: clamp(3rem, 10vw, 140px)"
+            aria-hidden="true"
+          >
+            {String(i + 1).padStart(2, "0")}
+          </span>
+
+          <div class="flex-1">
+            <h3
+              class="font-medium uppercase text-paper-ink"
+              style="font-size: clamp(1rem, 2.2vw, 2.1rem)"
+            >
+              {s.name}
+            </h3>
+            <p
+              class="mt-2 max-w-2xl font-light leading-relaxed text-paper-secondary"
+              style="font-size: clamp(0.85rem, 1.6vw, 1.25rem)"
+            >
+              {s.desc}
+            </p>
+
+            <ul class="mt-5 flex flex-wrap gap-2">
+              {s.includes.map((inc) => (
+                <li class="flex items-center gap-1.5 rounded-full border border-bg/15 px-3 py-1.5 text-sm text-paper-secondary">
+                  <span class="text-check" aria-hidden="true">
+                    ✓
+                  </span>
+                  {inc}
+                </li>
+              ))}
+            </ul>
+
+            <div class="mt-6 flex flex-wrap items-center justify-between gap-4">
+              <span class="font-mono text-[30px] font-medium text-price">
+                {s.price}
+              </span>
+              <a
+                href={`mailto:${email}`}
+                class="rounded-full bg-orange px-6 py-3 font-medium uppercase tracking-widest text-paper-ink transition-colors hover:bg-orange-hover"
+              >
+                {t.ctaStart}
+              </a>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>

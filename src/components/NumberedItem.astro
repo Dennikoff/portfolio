@@ -1,0 +1,42 @@
+---
+// Тёмный нумерованный ряд (Процесс §4.6). Номер + имя + описание, снизу разделитель.
+// Первый номер — оранжевый акцент (accent), остальные — светлые.
+interface Props {
+  n: string;
+  name: string;
+  desc: string;
+  accent?: boolean;
+  divider?: boolean;
+}
+const { n, name, desc, accent = false, divider = true } = Astro.props;
+---
+
+<div
+  class:list={[
+    "flex items-start gap-5 sm:gap-8 md:gap-12 py-8 sm:py-10 md:py-12",
+    divider && "border-b border-ink/15",
+  ]}
+>
+  <span
+    class:list={[
+      "font-black leading-none shrink-0",
+      accent ? "text-orange" : "text-ink",
+    ]}
+    style="font-size: clamp(3rem, 10vw, 140px)"
+    aria-hidden="true">{n}</span
+  >
+  <div class="pt-2 sm:pt-3 md:pt-4">
+    <h3
+      class="font-medium uppercase text-ink"
+      style="font-size: clamp(1rem, 2.2vw, 2.1rem)"
+    >
+      {name}
+    </h3>
+    <p
+      class="mt-2 font-light leading-relaxed text-ink-secondary max-w-2xl"
+      style="font-size: clamp(0.85rem, 1.6vw, 1.25rem)"
+    >
+      {desc}
+    </p>
+  </div>
+</div>

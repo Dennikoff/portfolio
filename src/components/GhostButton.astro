@@ -1,0 +1,24 @@
+---
+// Контурный pill (§5 ТЗ). Рендерится как <a>; поддерживает target/rel для внешних ссылок.
+interface Props {
+  href: string;
+  target?: string;
+  rel?: string;
+  class?: string;
+}
+const { href, target, rel, class: cls } = Astro.props;
+---
+
+<a
+  href={href}
+  target={target}
+  rel={rel}
+  class:list={[
+    "inline-block rounded-full border-2 border-ink text-ink font-medium uppercase tracking-widest",
+    "px-8 py-3 sm:px-10 sm:py-3.5 text-sm sm:text-base",
+    "transition-colors hover:bg-ink/10 hover:border-aqua-hover",
+    cls,
+  ]}
+>
+  <slot />
+</a>

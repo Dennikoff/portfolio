@@ -1,0 +1,44 @@
+---
+import LangSwitch from "./LangSwitch.astro";
+import { useTranslations, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const links = [
+  { href: "#work", label: t.nav.work },
+  { href: "#pricing", label: t.nav.pricing },
+  { href: "#about", label: t.nav.about },
+  { href: "#contact", label: lang === "ru" ? "Контакт" : "Contact" },
+];
+---
+
+<nav
+  class="flex items-center justify-between px-6 md:px-10 pt-6 md:pt-8"
+  aria-label={lang === "ru" ? "Основная навигация" : "Primary"}
+>
+  <a href="#top" class="font-mono font-medium text-ink text-base md:text-lg">
+    Denis Kharke
+  </a>
+
+  <div class="flex items-center gap-4 md:gap-7">
+    <ul class="hidden sm:flex items-center gap-4 md:gap-7">
+      {
+        links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              class="text-ink font-medium uppercase tracking-wider text-sm md:text-lg lg:text-[1.4rem] transition-opacity hover:opacity-70"
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <LangSwitch lang={lang} />
+  </div>
+</nav>
