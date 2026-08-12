@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #EDF1F1; color: #22302F; font-family: 'Golos Text', sans-serif; }
+a { color: #2E7B7E; text-decoration: none; }
+a:hover { color: #24696C; }
+::selection { background: #BFE3E3; }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .fu { animation: fadeUp 0.7s cubic-bezier(0.16,1,0.3,1) both; }
+}
+</style>
+</helmet>
+<div style="max-width: 1200px; margin: 0 auto; padding: 0 32px;">
+  <nav style="display: flex; align-items: center; justify-content: space-between; height: 68px;">
+    <a href="#top" style="font-weight: 700; font-size: 17px; color: #22302F;">{{ t.name }}</a>
+    <div style="display: flex; align-items: center; gap: 28px;">
+      <a href="#work" style="font-size: 15px; color: #3C4C4C;">{{ t.navWork }}</a>
+      <a href="#pricing" style="font-size: 15px; color: #3C4C4C;">{{ t.navPricing }}</a>
+      <a href="#about" style="font-size: 15px; color: #3C4C4C;">{{ t.navAbout }}</a>
+      <div style="display: flex; align-items: center;">
+        <button onClick="{{ setRu }}" style="{{ ruBtnStyle }}">RU</button>
+        <span style="color: #C4CFCF; font-size: 13px;">|</span>
+        <button onClick="{{ setEn }}" style="{{ enBtnStyle }}">EN</button>
+      </div>
+    </div>
+  </nav>
+
+  <header id="top" data-screen-label="Hero" style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 56px; align-items: center; padding: 60px 0 88px;">
+    <div>
+      <h1 class="fu" style="font-size: clamp(2.3rem, 4.6vw, 3.8rem); line-height: 1.07; letter-spacing: -0.02em; font-weight: 700; margin: 0 0 20px; text-wrap: balance;">{{ t.heroTitle1 }} <span style="color: #2E7B7E;">{{ t.heroTitle2 }}</span></h1>
+      <p class="fu" style="font-size: 18px; line-height: 1.55; color: #57696A; max-width: 46ch; margin: 0 0 32px; animation-delay: 0.1s; text-wrap: pretty;">{{ t.heroSub }}</p>
+      <div class="fu" style="display: flex; gap: 14px; animation-delay: 0.2s;">
+        <a href="mailto:denis.kharke@gmail.com" style="background: #FF9A00; color: #22302F; padding: 14px 28px; border-radius: 999px; font-weight: 700; font-size: 16px; transition: transform 0.2s cubic-bezier(0.16,1,0.3,1), background 0.2s;" style-hover="background: #ffab2e; color: #22302F;" style-active="transform: scale(0.98);">{{ t.ctaStart }}</a>
+        <a href="#work" style="border: 1px solid #C4CFCF; color: #22302F; padding: 14px 28px; border-radius: 999px; font-weight: 600; font-size: 16px; transition: border-color 0.2s;" style-hover="border-color: #2E7B7E; color: #22302F;">{{ t.ctaWork }}</a>
+      </div>
+    </div>
+    <div class="fu" style="animation-delay: 0.15s;">
+      <img src="uploads/photo-1785938432506.PNG" alt="Denis Kharke" style="width: 100%; max-height: 500px; object-fit: cover; object-position: top; border-radius: 12px; display: block;">
+    </div>
+  </header>
+
+  <section id="work" data-screen-label="Selected work" style="padding: 24px 0 96px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px;">
+      <h2 style="font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -0.018em; font-weight: 700; margin: 0;">{{ t.workTitle }}</h2>
+      <div style="display: flex; gap: 10px;">
+        <button onClick="{{ prevSlide }}" aria-label="Previous project" style="width: 46px; height: 46px; border: 1px solid #C4CFCF; border-radius: 999px; background: white; color: #3C4C4C; font-size: 18px; cursor: pointer; transition: border-color 0.2s;" style-hover="border-color: #2E7B7E;" style-active="transform: scale(0.95);">&#8592;</button>
+        <button onClick="{{ nextSlide }}" aria-label="Next project" style="width: 46px; height: 46px; border: none; border-radius: 999px; background: #FF9A00; color: #22302F; font-size: 18px; font-weight: 700; cursor: pointer; transition: background 0.2s;" style-hover="background: #ffab2e;" style-active="transform: scale(0.95);">&#8594;</button>
+      </div>
+    </div>
+    <div style="overflow: hidden; border-radius: 14px;">
+      <div style="{{ trackStyle }}">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="5">
+          <div style="min-width: 100%; background: white; border: 1px solid #C4CFCF; border-radius: 14px; overflow: hidden; box-sizing: border-box;">
+            <div style="height: 440px;">
+              <image-slot id="shot-{{ p.key }}" shape="rect" placeholder="{{ p.shotLabel }}"></image-slot>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; padding: 24px 32px;">
+              <div>
+                <div style="display: flex; align-items: baseline; gap: 12px;">
+                  <span style="font-size: 22px; font-weight: 700;">{{ p.name }}</span>
+                  <span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #2E7B7E;">{{ p.host }}</span>
+                  <span style="border: 1px solid #C4CFCF; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-family: 'JetBrains Mono', monospace; color: #57696A;">{{ p.tag }}</span>
+                </div>
+                <div style="font-size: 15px; color: #57696A; margin-top: 6px;">{{ p.desc }}</div>
+              </div>
+              <a href="{{ p.url }}" target="_blank" style="background: #FF9A00; color: #22302F; padding: 12px 24px; border-radius: 999px; font-size: 15px; font-weight: 700; white-space: nowrap;" style-hover="background: #ffab2e; color: #22302F;">{{ t.openSite }} &#8599;</a>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: flex; gap: 7px; justify-content: center; margin-top: 18px;">
+      <sc-for list="{{ dots }}" as="d" hint-placeholder-count="5">
+        <button onClick="{{ d.go }}" aria-label="Go to project" style="{{ d.style }}"></button>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="pricing" data-screen-label="Services and pricing" style="padding: 0 0 96px;">
+    <h2 style="font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -0.018em; font-weight: 700; margin: 0 0 8px;">{{ t.pricingTitle }}</h2>
+    <p style="font-size: 16px; color: #57696A; margin: 0 0 24px; max-width: 60ch;">{{ t.pricingSub }}</p>
+    <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+      <sc-for list="{{ svcTabs }}" as="tab" hint-placeholder-count="3">
+        <button onClick="{{ tab.pick }}" style="{{ tab.style }}">{{ tab.name }}</button>
+      </sc-for>
+    </div>
+    <div style="background: white; border: 1px solid #C4CFCF; border-radius: 14px; padding: 40px; display: grid; grid-template-columns: 1.6fr 1fr; gap: 40px; align-items: center;">
+      <div>
+        <div style="font-size: 24px; font-weight: 700; margin-bottom: 12px;">{{ svc.name }}</div>
+        <div style="font-size: 16px; color: #57696A; line-height: 1.6; max-width: 56ch;">{{ svc.desc }}</div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;">
+          <sc-for list="{{ svc.includes }}" as="inc" hint-placeholder-count="4">
+            <span style="font-size: 13.5px; color: #3C4C4C; background: #EDF1F1; border-radius: 999px; padding: 7px 14px;"><span style="color: #2E8B5F; font-weight: 700;">&#10003;</span>&nbsp; {{ inc }}</span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 14px; align-items: flex-end;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 30px; color: #B36E00;">{{ svc.price }}</span>
+        <a href="mailto:denis.kharke@gmail.com" style="background: #FF9A00; color: #22302F; padding: 13px 26px; border-radius: 999px; font-size: 15px; font-weight: 700;" style-hover="background: #ffab2e; color: #22302F;" style-active="transform: scale(0.98);">{{ t.ctaStart }}</a>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Process" style="padding: 0 0 96px;">
+    <h2 style="font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -0.018em; font-weight: 700; margin: 0 0 32px;">{{ t.processTitle }}</h2>
+    <div style="display: flex; flex-direction: column; max-width: 720px;">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="5">
+        <div style="display: grid; grid-template-columns: 28px 1fr; gap: 20px;">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <span style="{{ st.dotStyle }}"></span>
+            <sc-if value="{{ st.hasLine }}" hint-placeholder-val="{{ true }}"><span style="width: 2px; flex: 1; background: #C4CFCF;"></span></sc-if>
+          </div>
+          <div style="padding-bottom: 26px;">
+            <div style="font-size: 18px; font-weight: 700; margin-bottom: 4px;">{{ st.name }}</div>
+            <div style="font-size: 15px; color: #57696A; line-height: 1.55;">{{ st.desc }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="about" data-screen-label="Skills and experience" style="padding: 0 0 96px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
+    <div>
+      <h2 style="font-size: clamp(1.6rem, 2.5vw, 2.1rem); letter-spacing: -0.018em; font-weight: 700; margin: 0 0 24px;">{{ t.skillsTitle }}</h2>
+      <sc-for list="{{ skillGroups }}" as="g" hint-placeholder-count="3">
+        <div style="margin-bottom: 20px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #2E7B7E; margin-bottom: 10px;">{{ g.label }}</div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+              <span style="border: 1px solid #C4CFCF; background: white; border-radius: 999px; padding: 7px 16px; font-size: 14px;">{{ it }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div>
+      <h2 style="font-size: clamp(1.6rem, 2.5vw, 2.1rem); letter-spacing: -0.018em; font-weight: 700; margin: 0 0 24px;">{{ t.expTitle }}</h2>
+      <p style="font-size: 16px; line-height: 1.6; color: #3C4C4C; margin: 0 0 28px; max-width: 52ch; text-wrap: pretty;">{{ t.expBody }}</p>
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <sc-for list="{{ timeline }}" as="tl" hint-placeholder-count="3">
+          <div style="display: grid; grid-template-columns: 110px 1fr; gap: 20px; align-items: baseline;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #2E7B7E;">{{ tl.years }}</span>
+            <span style="font-size: 15.5px; color: #3C4C4C;">{{ tl.what }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Contact" style="border-top: 1px solid #C4CFCF; padding: 72px 0 56px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: start;">
+    <div>
+      <h2 style="font-size: clamp(1.8rem, 3.2vw, 2.6rem); letter-spacing: -0.02em; font-weight: 700; margin: 0 0 16px; text-wrap: balance;">{{ t.contactTitle }}</h2>
+      <a href="mailto:denis.kharke@gmail.com" style="font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 2vw, 1.3rem); color: #B36E00;">denis.kharke@gmail.com</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px; align-items: flex-start;">
+      <a href="https://github.com/Dennikoff" target="_blank" style="font-size: 16px; color: #3C4C4C;">GitHub / Dennikoff</a>
+      <a href="https://t.me/dennikoff" target="_blank" style="font-size: 16px; color: #3C4C4C;">Telegram / @dennikoff</a>
+      <a href="https://www.linkedin.com/in/denis-harke/" target="_blank" style="font-size: 16px; color: #3C4C4C;">LinkedIn / denis-harke</a>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;lang&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;ru&quot;, &quot;en&quot;], &quot;default&quot;: &quot;ru&quot;, &quot;tsType&quot;: &quot;'ru' | 'en'&quot;, &quot;section&quot;: &quot;Content&quot;}}">
+class Component extends DCLogic {
+  state = { lang: this.props.lang ?? 'ru', slide: 0, svc: 0 };
+  renderVals() {
+    const { lang, slide, svc } = this.state;
+    const projBase = [
+      { key: 'gadius', url: 'https://front.gadius.ru/', host: 'front.gadius.ru' },
+      { key: 'hpc', url: 'https://hpc-park.ru/', host: 'hpc-park.ru' },
+      { key: 'megalit', url: 'https://www.megalit-gr.ru/', host: 'megalit-gr.ru' },
+      { key: 'juna', url: 'https://juna-horse.ru/?content=comics', host: 'juna-horse.ru' },
+      { key: 'hpd', url: 'https://hpd-expert.vercel.app/', host: 'hpd-expert.vercel.app' },
+    ];
+    const en = {
+      name: 'Denis Kharke', navWork: 'Work', navPricing: 'Pricing', navAbout: 'About',
+      heroTitle1: 'Frontend for landings,', heroTitle2: 'sites, and web apps.',
+      heroSub: 'I am Denis, a frontend developer with 4+ years of enterprise experience. I turn designs into fast, reliable interfaces for small businesses and startups.',
+      ctaStart: 'Start a project', ctaWork: 'View work', workTitle: 'Selected work', openSite: 'Open site',
+      pricingTitle: 'Services and pricing', pricingSub: 'Fixed starting prices. Final estimate after a short brief, usually within one day.',
+      processTitle: 'How we work', skillsTitle: 'Stack', expTitle: 'Experience',
+      expBody: 'In frontend since 2020, freelancing since 2021, in enterprise development since 2022. I have shipped a service-ordering platform, corporate sites, and landings, and I handle the full path from Figma to production.',
+      contactTitle: 'Have a project in mind? Write me.',
+      projMeta: [
+        { name: 'Gadius', tag: 'Enterprise app', desc: 'Enterprise platform for ordering services: complex forms, roles, and order flows', shot: 'screenshot: front.gadius.ru' },
+        { name: 'HPC Park', tag: 'Corporate site', desc: 'Website for a GPU rental company: hardware catalog and request flow', shot: 'screenshot: hpc-park.ru' },
+        { name: 'Megalit Group', tag: 'Corporate site', desc: 'Site for a law firm: practice areas, team, and consultation requests', shot: 'screenshot: megalit-gr.ru' },
+        { name: 'Juna Horse', tag: 'Content site', desc: 'Equestrian club site with prices, news, and a comics section', shot: 'screenshot: juna-horse.ru' },
+        { name: 'HPD Expert', tag: 'Landing', desc: 'Landing page for a medical course: program, speakers, and sign-up', shot: 'screenshot: hpd-expert.vercel.app' },
+      ],
+      services: [
+        { name: 'Landing page', desc: 'One page that sells a product, course, or service.', price: 'from $600', includes: ['Design-to-code or design from scratch', 'Mobile and tablet responsive', 'Contact form to email or Telegram', 'Launch in 1-2 weeks'] },
+        { name: 'Business website', desc: 'Multi-page site for your company: services, prices, news, contact forms.', price: 'from $1,400', includes: ['Up to 10 pages', 'Content management without a developer', 'Basic SEO and fast loading', 'One month of support after launch'] },
+        { name: 'Web app frontend', desc: 'Interface for your product on React or Vue.', price: 'from $2,800', includes: ['Dashboards and complex forms', 'Integration with your API', 'TypeScript codebase', 'Handoff with documentation'] },
+      ],
+      steps: [
+        { name: 'Brief', desc: 'You describe the task, I ask questions and clarify scope.' },
+        { name: 'Estimate', desc: 'Fixed price and timeline, usually within one day.' },
+        { name: 'Build', desc: 'I share progress on a live link so you see the site grow.' },
+        { name: 'Approval', desc: 'You review the result, I apply final corrections.' },
+        { name: 'Launch', desc: 'Deploy, domain setup, and fixes after release.' },
+      ],
+      skillGroups: [
+        { label: 'LANGUAGES', items: ['TypeScript', 'JavaScript', 'HTML', 'CSS'] },
+        { label: 'FRAMEWORKS', items: ['React', 'Vue', 'Nuxt', 'Astro'] },
+        { label: 'ALSO', items: ['Figma to code', 'Responsive layout', 'REST API integration'] },
+      ],
+      timeline: [
+        { years: '2020', what: 'Started frontend, self-taught' },
+        { years: '2021-now', what: 'Freelance sites and landings' },
+        { years: '2022-now', what: 'Enterprise frontend developer' },
+      ],
+    };
+    const ru = {
+      name: 'Денис Харке', navWork: 'Работы', navPricing: 'Цены', navAbout: 'Обо мне',
+      heroTitle1: 'Фронтенд для лендингов,', heroTitle2: 'сайтов и веб-приложений.',
+      heroSub: 'Я Денис, фронтенд-разработчик с опытом 4+ года в enterprise. Превращаю макеты в быстрые и надежные интерфейсы для малого бизнеса и стартапов.',
+      ctaStart: 'Обсудить проект', ctaWork: 'Смотреть работы', workTitle: 'Избранные работы', openSite: 'Открыть сайт',
+      pricingTitle: 'Услуги и цены', pricingSub: 'Фиксированные стартовые цены. Точная оценка после короткого брифа, обычно в течение дня.',
+      processTitle: 'Как мы работаем', skillsTitle: 'Стек', expTitle: 'Опыт',
+      expBody: 'Во фронтенде с 2020 года, на фрилансе с 2021, в enterprise-разработке с 2022. Делал платформу заказа услуг, корпоративные сайты и лендинги. Веду проект от макета в Figma до продакшена.',
+      contactTitle: 'Есть проект? Напишите мне.',
+      projMeta: [
+        { name: 'Gadius', tag: 'Enterprise', desc: 'Enterprise-платформа заказа услуг: сложные формы, роли и сценарии заказа', shot: 'скриншот: front.gadius.ru' },
+        { name: 'HPC Park', tag: 'Корпоративный сайт', desc: 'Сайт компании по аренде GPU: каталог оборудования и заявки', shot: 'скриншот: hpc-park.ru' },
+        { name: 'Мегалит Групп', tag: 'Корпоративный сайт', desc: 'Сайт юридической компании: практики, команда, запись на консультацию', shot: 'скриншот: megalit-gr.ru' },
+        { name: 'Juna Horse', tag: 'Контентный сайт', desc: 'Сайт конного клуба: цены, новости и раздел с комиксами', shot: 'скриншот: juna-horse.ru' },
+        { name: 'HPD Expert', tag: 'Лендинг', desc: 'Лендинг медицинского курса: программа, спикеры, запись', shot: 'скриншот: hpd-expert.vercel.app' },
+      ],
+      services: [
+        { name: 'Лендинг', desc: 'Одна страница, которая продает продукт, курс или услугу.', price: 'от 50 000 ₽', includes: ['Верстка по макету или дизайн с нуля', 'Адаптив под телефон и планшет', 'Форма заявки на почту или в Telegram', 'Запуск за 1-2 недели'] },
+        { name: 'Сайт для бизнеса', desc: 'Многостраничный сайт компании: услуги, цены, новости, формы заявок.', price: 'от 120 000 ₽', includes: ['До 10 страниц', 'Управление контентом без программиста', 'Базовое SEO и быстрая загрузка', 'Месяц поддержки после запуска'] },
+        { name: 'Веб-приложение', desc: 'Интерфейс вашего продукта на React или Vue.', price: 'от 250 000 ₽', includes: ['Дашборды и сложные формы', 'Интеграция с вашим API', 'Кодовая база на TypeScript', 'Передача проекта с документацией'] },
+      ],
+      steps: [
+        { name: 'Бриф', desc: 'Вы описываете задачу, я задаю вопросы и уточняю объем.' },
+        { name: 'Оценка', desc: 'Фиксированная цена и сроки, обычно в течение дня.' },
+        { name: 'Разработка', desc: 'Показываю прогресс на живой ссылке: сайт растет у вас на глазах.' },
+        { name: 'Согласование', desc: 'Вы смотрите результат, я вношу финальные правки.' },
+        { name: 'Запуск', desc: 'Деплой, настройка домена и правки после релиза.' },
+      ],
+      skillGroups: [
+        { label: 'ЯЗЫКИ', items: ['TypeScript', 'JavaScript', 'HTML', 'CSS'] },
+        { label: 'ФРЕЙМВОРКИ', items: ['React', 'Vue', 'Nuxt', 'Astro'] },
+        { label: 'ТАКЖЕ', items: ['Верстка по Figma', 'Адаптивная верстка', 'Интеграция REST API'] },
+      ],
+      timeline: [
+        { years: '2020', what: 'Начал изучать фронтенд самостоятельно' },
+        { years: '2021-н.в.', what: 'Фриланс: сайты и лендинги' },
+        { years: '2022-н.в.', what: 'Enterprise фронтенд-разработчик' },
+      ],
+    };
+    const t = lang === 'ru' ? ru : en;
+    const n = projBase.length;
+    const projects = projBase.map((p, i) => ({ ...p, ...{ name: t.projMeta[i].name, tag: t.projMeta[i].tag, desc: t.projMeta[i].desc, shotLabel: t.projMeta[i].shot } }));
+    const svcData = t.services[svc];
+    const btnBase = { padding: '7px 13px', fontSize: '13px', fontFamily: "'Golos Text', sans-serif", border: 'none', cursor: 'pointer', background: 'transparent', color: '#93A5A5' };
+    const btnOn = { ...btnBase, color: '#B36E00', fontWeight: 600 };
+    const pillBase = { padding: '11px 24px', borderRadius: '999px', fontSize: '15px', fontFamily: "'Golos Text', sans-serif", cursor: 'pointer', background: 'white', border: '1px solid #C4CFCF', color: '#57696A', transition: 'border-color 0.2s' };
+    const pillOn = { ...pillBase, background: '#22302F', border: '1px solid #22302F', color: '#EDF1F1', fontWeight: 600 };
+    return {
+      t, projects,
+      steps: t.steps.map((s, i) => ({ ...s, hasLine: i < t.steps.length - 1, dotStyle: { width: '14px', height: '14px', borderRadius: '999px', background: i === 0 ? '#FF9A00' : '#44A1A4', marginTop: '5px' } })),
+      skillGroups: t.skillGroups, timeline: t.timeline,
+      svc: svcData,
+      svcTabs: t.services.map((s, i) => ({ name: s.name, style: i === svc ? pillOn : pillBase, pick: () => this.setState({ svc: i }) })),
+      trackStyle: { display: 'flex', transform: `translateX(-${slide * 100}%)`, transition: 'transform 0.5s cubic-bezier(0.16,1,0.3,1)' },
+      dots: projects.map((_, i) => ({
+        go: () => this.setState({ slide: i }),
+        style: { width: i === slide ? '24px' : '7px', height: '7px', borderRadius: '999px', border: 'none', cursor: 'pointer', background: i === slide ? '#FF9A00' : '#C4CFCF', transition: 'width 0.3s, background 0.3s', padding: 0 },
+      })),
+      prevSlide: () => this.setState(s => ({ slide: (s.slide - 1 + n) % n })),
+      nextSlide: () => this.setState(s => ({ slide: (s.slide + 1) % n })),
+      setEn: () => this.setState({ lang: 'en' }),
+      setRu: () => this.setState({ lang: 'ru' }),
+      enBtnStyle: lang === 'en' ? btnOn : btnBase,
+      ruBtnStyle: lang === 'ru' ? btnOn : btnBase,
+    };
+  }
+}
+</script>
+</body>
+</html>
