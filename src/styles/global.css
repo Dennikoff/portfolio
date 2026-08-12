@@ -51,6 +51,8 @@
 
   html {
     scroll-behavior: smooth;
+    /* Смещение якорных переходов под фиксированный навбар */
+    scroll-padding-top: 5rem;
   }
 
   body {
@@ -106,6 +108,114 @@
   box-shadow:
     0 10px 26px -6px rgba(91, 196, 199, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* ─── Появление фиксированного навбара ──────────────────────────────────── */
+@keyframes nav-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.nav-in {
+  animation: nav-in 0.6s ease both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .nav-in {
+    animation: none;
+  }
+}
+
+/* ─── Плавающая «liquid glass» шапка на мобилке ─────────────────────────────
+   Вверху — плашка на всю ширину. После скролла (data-scrolled) на мобилке она
+   превращается в «остров»: пилюля с отступами от краёв, бордером и стеклом. */
+[data-nav] {
+  transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+[data-nav-bar] {
+  transition:
+    border-radius 0.35s ease,
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    padding 0.35s ease,
+    backdrop-filter 0.35s ease;
+}
+[data-nav-menu] {
+  transition:
+    border-radius 0.35s ease,
+    margin-top 0.35s ease;
+}
+
+@media (max-width: 639px) {
+  [data-nav][data-scrolled="true"] {
+    padding: 0.5rem 0.75rem;
+  }
+  [data-nav][data-scrolled="true"] [data-nav-bar] {
+    border: 1px solid rgba(215, 226, 234, 0.16);
+    border-radius: 9999px;
+    background: rgba(12, 12, 12, 0.55);
+    box-shadow: 0 10px 34px -10px rgba(0, 0, 0, 0.55);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    backdrop-filter: blur(18px) saturate(1.5);
+  }
+  [data-nav][data-scrolled="true"] [data-nav-menu]:not(.hidden) {
+    margin-top: 0.5rem;
+    border: 1px solid rgba(215, 226, 234, 0.16);
+    border-radius: 1.5rem;
+    background: rgba(12, 12, 12, 0.7);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    backdrop-filter: blur(18px) saturate(1.5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nav],
+  [data-nav-bar],
+  [data-nav-menu] {
+    transition: none;
+  }
+}
+
+/* ─── Бургер: три линии, при aria-expanded="true" складываются в крестик ─── */
+.burger span {
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transition:
+    transform 0.25s ease,
+    opacity 0.2s ease,
+    top 0.25s ease;
+}
+.burger span:nth-child(1) {
+  top: 34%;
+}
+.burger span:nth-child(2) {
+  top: 50%;
+}
+.burger span:nth-child(3) {
+  top: 66%;
+}
+.burger[aria-expanded="true"] span:nth-child(1) {
+  top: 50%;
+  transform: rotate(45deg);
+}
+.burger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+.burger[aria-expanded="true"] span:nth-child(3) {
+  top: 50%;
+  transform: rotate(-45deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .burger span {
+    transition: none;
+  }
 }
 
 /* ─── Плейсхолдеры ассетов (до получения реальных скриншотов, Фаза 5) ────── */

@@ -2,13 +2,17 @@
 // Pill с градиентной заливкой (§5 ТЗ). Рендерится как <a>. Стили заливки — в global.css (.contact-btn).
 interface Props {
   href: string;
+  target?: string;
+  rel?: string;
   class?: string;
 }
-const { href, class: cls } = Astro.props;
+const { href, target, rel, class: cls } = Astro.props;
 ---
 
 <a
   href={href}
+  target={target}
+  rel={rel}
   class:list={[
     "contact-btn inline-block rounded-full text-white font-medium uppercase tracking-widest",
     "px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base",

@@ -40,6 +40,9 @@ export const projLinks = [
 /** Контактный email — нелокализованный. */
 export const email = "denis.kharke@gmail.com";
 
+/** Telegram для CTA «Обсудить проект» — нелокализованный. */
+export const telegram = "https://t.me/dennikoff";
+
 /** Соцсети (§4.7 ТЗ) — нелокализованные. label — mono-аква, handle — светлый. */
 export const socials = [
   { label: "GitHub", handle: "Dennikoff", url: "https://github.com/Dennikoff" },

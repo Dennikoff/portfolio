@@ -4,7 +4,7 @@ import FadeIn from "./FadeIn.astro";
 import Magnet from "./Magnet.astro";
 import ContactButton from "./ContactButton.astro";
 import GhostButton from "./GhostButton.astro";
-import { useTranslations, email, type Lang } from "../i18n/utils";
+import { useTranslations, telegram, type Lang } from "../i18n/utils";
 
 interface Props {
   lang: Lang;
@@ -16,9 +16,7 @@ const tagline = `${t.heroTitle1} ${t.heroTitle2}`;
 ---
 
 <section id="top" class="relative flex h-screen flex-col overflow-x-clip">
-  <FadeIn delay={0} y={-20} class="relative z-30">
-    <Nav lang={lang} />
-  </FadeIn>
+  <Nav lang={lang} />
 
   {/* H1 — вордмарк в два слоя. Слой A (серый, непрозрачный) — под фото (z-auto < фото z-10):
       голова его перекрывает. Слой B (тот же текст, opacity 0.4) — над фото (z-20).
@@ -80,7 +78,9 @@ const tagline = `${t.heroTitle1} ${t.heroTitle2}`;
       {tagline}
     </p>
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-      <ContactButton href={`mailto:${email}`}>{t.ctaStart}</ContactButton>
+      <ContactButton href={telegram} target="_blank" rel="noopener">
+        {t.ctaStart}
+      </ContactButton>
       <GhostButton href="#work">{t.ctaWork}</GhostButton>
     </div>
   </div>

@@ -64,7 +64,7 @@ export const en: Dict = {
     {
       name: "Landing page",
       desc: "One page that sells a product, course, or service.",
-      price: "from $600",
+      price: "from $700",
       includes: [
         "Design-to-code or design from scratch",
         "Mobile and tablet responsive",

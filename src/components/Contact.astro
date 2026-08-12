@@ -1,7 +1,7 @@
 ---
 import ContactButton from "./ContactButton.astro";
 import FadeIn from "./FadeIn.astro";
-import { useTranslations, email, socials, type Lang } from "../i18n/utils";
+import { useTranslations, email, telegram, socials, type Lang } from "../i18n/utils";
 
 interface Props {
   lang: Lang;
@@ -39,7 +39,9 @@ const rights = lang === "ru" ? "Все права защищены." : "All righ
           {email}
         </a>
         <div class="mt-8">
-          <ContactButton href={`mailto:${email}`}>{t.ctaStart}</ContactButton>
+          <ContactButton href={telegram} target="_blank" rel="noopener">
+            {t.ctaStart}
+          </ContactButton>
         </div>
       </div>
 
