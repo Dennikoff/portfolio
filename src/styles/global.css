@@ -51,8 +51,8 @@
 
   html {
     scroll-behavior: smooth;
-    /* Смещение якорных переходов под фиксированный навбар */
-    scroll-padding-top: 5rem;
+    /* Смещение якорных переходов под фиксированный навбар (+ чёлка) */
+    scroll-padding-top: calc(5rem + env(safe-area-inset-top, 0px));
   }
 
   body {
@@ -128,10 +128,24 @@
   }
 }
 
-/* ─── Плавающая «liquid glass» шапка на мобилке ─────────────────────────────
-   Вверху — плашка на всю ширину. После скролла (data-scrolled) на мобилке она
-   превращается в «остров»: пилюля с отступами от краёв, бордером и стеклом. */
+/* ─── Шапка + обход «чёрной шторки» Safari iOS 26 ───────────────────────────
+   Safari 26 (Liquid Glass) делает hit-test в точке (центр по X, верх вьюпорта
+   + 4px) и видит в нём ТОЛЬКО fixed/sticky-слои. Если попал в элемент шириной
+   ≥90% вьюпорта — под чёлку подкладывается непрозрачный WKColorExtensionView.
+   А если в найденном слое есть backdrop-filter, цвет вычислить нельзя → берётся
+   фон страницы → плоская чёрная полоса вместо стекла. theme-color тут не влияет.
+
+   Обход двойной:
+   1) шапка начинается НИЖЕ чёлки (top: env(safe-area-inset-top)) — в точке
+      замера вообще нет fixed-слоёв, полоса не создаётся;
+   2) на мобилке шапка вдобавок уже 90% вьюпорта — тогда она не кандидат, даже
+      если точка замера окажется ниже, чем мы ожидаем.
+   Результат: шапка прибита к низу шторки, а за шторкой виден живой контент
+   с нативным scroll-edge-стеклом Safari. */
 [data-nav] {
+  top: env(safe-area-inset-top, 0px);
+  left: 0;
+  right: 0;
   transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 [data-nav-bar] {
@@ -150,10 +164,14 @@
 }
 
 @media (max-width: 639px) {
-  [data-nav][data-scrolled="true"] {
-    padding: 0.5rem 0.75rem;
+  /* Всегда «остров», а не плашка на всю ширину: 6vw с каждой стороны даёт 88%
+     вьюпорта — ниже порога 90%, на котором Safari берёт элемент в кандидаты. */
+  [data-nav] {
+    left: max(6vw, env(safe-area-inset-left, 0px));
+    right: max(6vw, env(safe-area-inset-right, 0px));
+    padding-top: 0.5rem;
   }
-  [data-nav][data-scrolled="true"] [data-nav-bar] {
+  [data-nav-bar] {
     border: 1px solid rgba(215, 226, 234, 0.16);
     border-radius: 2rem;
     background: rgba(12, 12, 12, 0.55);
@@ -161,7 +179,12 @@
     -webkit-backdrop-filter: blur(18px) saturate(1.5);
     backdrop-filter: blur(18px) saturate(1.5);
   }
-  [data-nav][data-scrolled="true"] [data-nav-menu]:not(.hidden) {
+  /* После скролла стекло плотнее — форма уже не меняется */
+  [data-nav][data-scrolled="true"] [data-nav-bar] {
+    background: rgba(12, 12, 12, 0.72);
+    box-shadow: 0 12px 40px -10px rgba(0, 0, 0, 0.7);
+  }
+  [data-nav-menu]:not(.hidden) {
     margin-top: 0.5rem;
     border: 1px solid rgba(215, 226, 234, 0.16);
     border-radius: 1.5rem;

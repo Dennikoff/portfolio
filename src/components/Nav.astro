@@ -18,7 +18,7 @@ const links = [
 
 <nav
   data-nav
-  class="nav-in fixed inset-x-0 top-0 z-50"
+  class="nav-in fixed z-50"
   aria-label={lang === "ru" ? "Основная навигация" : "Primary"}
 >
   <div
@@ -86,7 +86,7 @@ const links = [
 </nav>
 
 <script>
-  // Плавающая «liquid glass» шапка: при скролле вниз вешаем data-scrolled (морфинг — в CSS).
+  // При скролле вниз вешаем data-scrolled → морфинг в «остров» (CSS).
   const nav = document.querySelector<HTMLElement>("[data-nav]");
   if (nav) {
     const onScroll = () => {
