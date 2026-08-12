@@ -1,6 +1,7 @@
 ---
 import Placeholder from "./Placeholder.astro";
 import GhostButton from "./GhostButton.astro";
+import FadeIn from "./FadeIn.astro";
 import { useTranslations, projLinks, type Lang } from "../i18n/utils";
 
 interface Props {
@@ -20,18 +21,21 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
   class="relative z-10 -mt-10 rounded-t-[40px] bg-bg px-5 py-20 sm:-mt-12 sm:rounded-t-[50px] sm:px-8 md:-mt-14 md:rounded-t-[60px] md:px-10 md:py-32"
   style="content-visibility: auto"
 >
-  <h2
-    id="work-heading"
-    class="mb-12 text-center font-black uppercase leading-none tracking-tight hero-heading sm:mb-16 md:mb-20"
-    style="font-size: clamp(3rem, 12vw, 160px)"
-  >
-    {heading}
-  </h2>
+  <FadeIn>
+    <h2
+      id="work-heading"
+      class="mb-12 text-center font-black uppercase leading-none tracking-tight hero-heading sm:mb-16 md:mb-20"
+      style="font-size: clamp(3rem, 12vw, 160px)"
+    >
+      {heading}
+    </h2>
+  </FadeIn>
 
   {/* В Фазе 4 карточки станут sticky-стеком; сейчас — просто в потоке. */}
   <div class="mx-auto flex max-w-6xl flex-col gap-8 sm:gap-10">
     {
       projects.map((p, i) => (
+        <FadeIn delay={i * 0.1}>
         <article
           class="rounded-[40px] border-2 border-ink bg-bg p-4 sm:rounded-[50px] sm:p-6 md:rounded-[60px] md:p-8"
         >
@@ -85,6 +89,7 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
             />
           </div>
         </article>
+        </FadeIn>
       ))
     }
   </div>

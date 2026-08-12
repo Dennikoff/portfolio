@@ -1,5 +1,6 @@
 ---
 import ContactButton from "./ContactButton.astro";
+import FadeIn from "./FadeIn.astro";
 import { useTranslations, email, socials, type Lang } from "../i18n/utils";
 
 interface Props {
@@ -17,15 +18,17 @@ const rights = lang === "ru" ? "Все права защищены." : "All righ
   class="border-t border-ink/15 bg-bg px-5 py-20 sm:px-8 sm:py-24 md:px-10"
 >
   <div class="mx-auto max-w-6xl">
-    <h2
-      id="contact-heading"
-      class="hero-heading font-black uppercase leading-none tracking-tight"
-      style="font-size: clamp(2.5rem, 9vw, 120px)"
-    >
-      {t.contactTitle}
-    </h2>
+    <FadeIn y={40}>
+      <h2
+        id="contact-heading"
+        class="hero-heading font-black uppercase leading-none tracking-tight"
+        style="font-size: clamp(2.5rem, 9vw, 120px)"
+      >
+        {t.contactTitle}
+      </h2>
+    </FadeIn>
 
-    <div class="mt-10 grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-end">
+    <FadeIn delay={0.1} class="mt-10 grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-end">
       <div>
         <a
           href={`mailto:${email}`}
@@ -60,7 +63,7 @@ const rights = lang === "ru" ? "Все права защищены." : "All righ
           ))
         }
       </ul>
-    </div>
+    </FadeIn>
 
     <p class="mt-16 text-[13px] text-ink-secondary">
       © {year} {t.name}. {rights}

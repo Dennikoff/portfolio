@@ -1,5 +1,6 @@
 ---
 import Nav from "./Nav.astro";
+import FadeIn from "./FadeIn.astro";
 import ContactButton from "./ContactButton.astro";
 import GhostButton from "./GhostButton.astro";
 import Placeholder from "./Placeholder.astro";
@@ -15,37 +16,55 @@ const tagline = `${t.heroTitle1} ${t.heroTitle2}`;
 ---
 
 <section id="top" class="relative flex h-screen flex-col overflow-x-clip">
-  <Nav lang={lang} />
+  <FadeIn delay={0} y={-20}>
+    <Nav lang={lang} />
+  </FadeIn>
 
   {/* H1 — вордмарк, одна нерасширяемая строка */}
-  <div class="flex flex-1 items-center overflow-hidden px-6 md:px-10">
+  <FadeIn
+    delay={0.15}
+    y={40}
+    class="flex flex-1 items-center overflow-hidden px-6 md:px-10"
+  >
     <h1
       class="hero-heading w-full whitespace-nowrap font-black uppercase leading-none tracking-tight text-[15vw]"
     >
       denis kharke
     </h1>
-  </div>
+  </FadeIn>
 
-  {/* Портрет по центру */}
-  <Placeholder
-    label={lang === "ru" ? "портрет" : "portrait"}
-    ratio="440 / 560"
-    class="absolute left-1/2 z-10 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-xl sm:top-auto sm:bottom-0 sm:translate-y-0 w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px]"
-  />
+  {/* Портрет по центру. Центрирующий transform — на внешней обёртке, fade — на внутренней. */}
+  <div
+    class="absolute left-1/2 z-10 top-1/2 -translate-x-1/2 -translate-y-1/2 sm:top-auto sm:bottom-0 sm:translate-y-0 w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px]"
+  >
+    <FadeIn delay={0.6} y={30}>
+      <Placeholder
+        label={lang === "ru" ? "портрет" : "portrait"}
+        ratio="440 / 560"
+        class="w-full rounded-xl"
+      />
+    </FadeIn>
+  </div>
 
   {/* Нижняя полоса: tagline + CTA */}
   <div
     class="relative z-20 flex flex-col items-start gap-6 px-6 pb-7 sm:flex-row sm:items-end sm:justify-between md:px-10 sm:pb-8 md:pb-10"
   >
-    <p
-      class="max-w-[420px] font-light uppercase tracking-wide leading-snug text-ink"
-      style="font-size: clamp(0.9rem, 1.6vw, 1.6rem)"
+    <FadeIn delay={0.35} y={20} class="max-w-[420px]">
+      <p
+        class="font-light uppercase tracking-wide leading-snug text-ink"
+        style="font-size: clamp(0.9rem, 1.6vw, 1.6rem)"
+      >
+        {tagline}
+      </p>
+    </FadeIn>
+    <FadeIn
+      delay={0.5}
+      y={20}
+      class="flex flex-col gap-3 sm:flex-row sm:items-center"
     >
-      {tagline}
-    </p>
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
       <ContactButton href={`mailto:${email}`}>{t.ctaStart}</ContactButton>
       <GhostButton href="#work">{t.ctaWork}</GhostButton>
-    </div>
+    </FadeIn>
   </div>
 </section>

@@ -1,0 +1,23 @@
+---
+// Обёртка появления на скролле (§5 ТЗ). Начальное состояние — inline (opacity:0 + сдвиг),
+// анимацию доводит fade.ts по inView (одноразово). При reduced-motion fade.ts ставит конечное состояние.
+// class прокидывается на саму обёртку — можно перенести на неё layout-классы (flex-1, absolute и т.п.).
+interface Props {
+  delay?: number;
+  duration?: number;
+  x?: number;
+  y?: number;
+  class?: string;
+}
+const { delay = 0, duration = 0.7, x = 0, y = 30, class: cls } = Astro.props;
+---
+
+<div
+  class={cls}
+  data-fade
+  data-delay={delay}
+  data-duration={duration}
+  style={`opacity:0; transform: translate(${x}px, ${y}px); will-change: opacity, transform;`}
+>
+  <slot />
+</div>
