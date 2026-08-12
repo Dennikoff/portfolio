@@ -132,9 +132,21 @@
    Вверху — плашка на всю ширину. После скролла (data-scrolled) на мобилке она
    превращается в «остров»: пилюля с отступами от краёв, бордером и стеклом. */
 [data-nav] {
-  /* Область safe-area (чёлка iPhone) остаётся прозрачной: сдвигаем плашку вниз */
+  /* Плашка/остров всегда ниже чёлки; саму чёлку накрывает .nav-scrim (стекло) */
   padding-top: env(safe-area-inset-top);
   transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Стеклянная полоска ровно на высоту safe-area (на устройствах без чёлки высота 0). */
+.nav-scrim {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: env(safe-area-inset-top);
+  z-index: 40;
+  pointer-events: none;
+  background: rgba(12, 12, 12, 0.6);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  backdrop-filter: blur(16px) saturate(1.4);
 }
 [data-nav-bar] {
   transition:
