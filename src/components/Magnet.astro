@@ -1,0 +1,20 @@
+---
+// Магнитный элемент (§5 ТЗ): тянется к курсору при приближении. Логика — magnet.ts,
+// отключается при (hover: none) и prefers-reduced-motion.
+interface Props {
+  padding?: number;
+  strength?: number;
+  class?: string;
+}
+const { padding = 150, strength = 3, class: cls } = Astro.props;
+---
+
+<div
+  class:list={["inline-block", cls]}
+  data-magnet
+  data-padding={padding}
+  data-strength={strength}
+  style="will-change: transform;"
+>
+  <slot />
+</div>

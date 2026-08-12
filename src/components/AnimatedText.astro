@@ -1,0 +1,19 @@
+---
+// Посимвольное проявление по прогрессу скролла (§5 ТЗ). Каждый символ — <span data-char>
+// со стартовой opacity 0.2; animated-text.ts доводит до 1. Пробелы сохраняются (pre-wrap).
+interface Props {
+  text: string;
+  class?: string;
+  style?: string;
+}
+const { text, class: cls, style } = Astro.props;
+const chars = [...text];
+---
+
+<p
+  class={cls}
+  style={`white-space: pre-wrap; ${style ?? ""}`}
+  data-animated-text
+>
+  {chars.map((c) => <span data-char style="opacity: 0.2">{c}</span>)}
+</p>

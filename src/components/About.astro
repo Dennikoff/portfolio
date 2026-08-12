@@ -1,5 +1,6 @@
 ---
 import FadeIn from "./FadeIn.astro";
+import AnimatedText from "./AnimatedText.astro";
 import { useTranslations, type Lang } from "../i18n/utils";
 
 interface Props {
@@ -25,15 +26,14 @@ const heading = lang === "ru" ? "обо мне" : "about";
     </h2>
   </FadeIn>
 
-  {/* Абзац об опыте (в Фазе 4 — посимвольное проявление AnimatedText) */}
-  <FadeIn delay={0.1} class="mt-10 w-full max-w-[560px] sm:mt-14 md:mt-16">
-    <p
+  {/* Абзац об опыте — посимвольное проявление по скроллу */}
+  <div class="mt-10 w-full max-w-[560px] sm:mt-14 md:mt-16">
+    <AnimatedText
+      text={t.expBody}
       class="text-center font-medium leading-relaxed text-ink"
       style="font-size: clamp(1rem, 2vw, 1.35rem)"
-    >
-      {t.expBody}
-    </p>
-  </FadeIn>
+    />
+  </div>
 
   {/* Две колонки: чип-группы навыков + таймлайн */}
   <FadeIn

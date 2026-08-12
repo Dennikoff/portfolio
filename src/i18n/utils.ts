@@ -30,11 +30,11 @@ export function localizedPath(lang: Lang): string {
  * Порядок строго совпадает с projMeta в словарях, зипуются по индексу.
  */
 export const projLinks = [
-  { key: "gadius", url: "https://front.gadius.ru/", host: "front.gadius.ru" },
-  { key: "hpc", url: "https://hpc-park.ru/", host: "hpc-park.ru" },
-  { key: "megalit", url: "https://www.megalit-gr.ru/", host: "megalit-gr.ru" },
-  { key: "juna", url: "https://juna-horse.ru/?content=comics", host: "juna-horse.ru" },
-  { key: "hpd", url: "https://hpd-expert.vercel.app/", host: "hpd-expert.vercel.app" },
+  { key: "gadius", url: "https://front.gadius.ru/", host: "front.gadius.ru", img: "/gadius.png" },
+  { key: "hpc", url: "https://hpc-park.ru/", host: "hpc-park.ru", img: "/hpc-park.png" },
+  { key: "megalit", url: "https://www.megalit-gr.ru/", host: "megalit-gr.ru", img: "/megalit.png" },
+  { key: "juna", url: "https://juna-horse.ru/?content=comics", host: "juna-horse.ru", img: "/juna.png" },
+  { key: "hpd", url: "https://hpd-expert.vercel.app/", host: "hpd-expert.vercel.app", img: "/hpd-expert.png" },
 ] as const;
 
 /** Контактный email — нелокализованный. */
