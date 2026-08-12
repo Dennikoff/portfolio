@@ -1,0 +1,10 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist", "исходники"],
+  "compilerOptions": {
+    "strict": true,
+    "strictNullChecks": true,
+    "verbatimModuleSyntax": true
+  }
+}

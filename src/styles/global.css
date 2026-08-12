@@ -1,0 +1,98 @@
+/* ─── Шрифты (self-host через fontsource) ─────────────────────────────
+   Golos Text — вариативный (400/600/700/900, кириллица + латиница).
+   JetBrains Mono — mono-акценты 400/500. */
+@import "@fontsource-variable/golos-text";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
+
+@import "tailwindcss";
+
+/* ─── Дизайн-токены (доступны как Tailwind-утилиты: bg-bg, text-ink, …) ── */
+@theme {
+  --font-sans: "Golos Text Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Тёмные секции */
+  --color-bg: #0c0c0c;
+  --color-ink: #d7e2ea;
+  --color-ink-secondary: #93a5a5;
+  --color-aqua: #44a1a4;
+  --color-aqua-hover: #5bc4c7;
+  --color-orange: #ff9a00;
+  --color-orange-hover: #ffab2e;
+
+  /* Светлая секция (Услуги и цены) */
+  --color-paper: #ffffff;
+  --color-paper-ink: #22302f;
+  --color-paper-secondary: #57696a;
+  --color-mono-teal: #2e7b7e;
+  --color-price: #b36e00;
+  --color-check: #2e8b5f;
+}
+
+/* ─── Ресет / глобальная основа ───────────────────────────────────────── */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  ::selection {
+    background: #bfe3e3;
+    color: #22302f;
+  }
+
+  /* Заголовки: перенос по балансу */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ─── Градиентный заголовок ────────────────────────────────────────────── */
+.hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ─── Reduced motion: гасим плавный скролл на уровне CSS ────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
