@@ -7,23 +7,22 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-<div class="lang-switch inline-flex items-center gap-1 font-mono text-sm" role="group" aria-label="Language">
+<div class="lang-switch inline-flex items-center gap-1.5 font-mono text-base" role="group" aria-label="Language">
   {
-    languages.map((l, i) => (
-      <>
-        {i > 0 && <span class="text-ink-secondary/40" aria-hidden="true">/</span>}
-        <a
-          href={localizedPath(l)}
-          data-lang={l}
-          aria-current={l === lang ? "true" : undefined}
-          class:list={[
-            "px-1 transition-colors hover:text-aqua-hover",
-            l === lang ? "text-aqua" : "text-ink-secondary",
-          ]}
-        >
-          {languageLabels[l]}
-        </a>
-      </>
+    languages.map((l) => (
+      <a
+        href={localizedPath(l)}
+        data-lang={l}
+        aria-current={l === lang ? "true" : undefined}
+        class:list={[
+          "rounded-full px-3.5 py-2 leading-none transition-colors",
+          l === lang
+            ? "bg-aqua/15 text-aqua"
+            : "text-ink-secondary hover:bg-ink/5 hover:text-aqua-hover",
+        ]}
+      >
+        {languageLabels[l]}
+      </a>
     ))
   }
 </div>

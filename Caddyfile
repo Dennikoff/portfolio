@@ -1,0 +1,16 @@
+# Global options
+{
+	# Let's Encrypt expiry / issue notifications go here
+	email lobsterggm@gmail.com
+}
+
+# Apex domain — serves the site over HTTPS (cert auto-issued & renewed)
+dkharke.tech {
+	encode zstd gzip
+	reverse_proxy web:80
+}
+
+# www -> apex redirect (remove this block if you don't use www)
+www.dkharke.tech {
+	redir https://dkharke.tech{uri} permanent
+}

@@ -39,6 +39,7 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
           data-stack-item
           class="mb-8 last:mb-0 md:mb-0 md:flex md:h-screen md:items-start md:justify-center md:sticky md:top-0 md:pt-[6vh]"
         >
+        <FadeIn class="w-full">
         <article
           data-stack-card
           class="w-full rounded-[40px] border-2 border-ink bg-bg p-4 sm:rounded-[50px] sm:p-6 md:relative md:rounded-[60px] md:p-8"
@@ -78,13 +79,14 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
             <img
               src={p.img}
               alt={`${p.name} — ${p.host}`}
-              width="3000"
-              height="1480"
+              width="1600"
+              height="790"
               loading="lazy"
               class="w-full h-auto"
             />
           </div>
         </article>
+        </FadeIn>
         </div>
       ))
     }

@@ -90,14 +90,22 @@
   color: transparent;
 }
 
-/* ─── ContactButton: пересобранный под аква/оранж градиент (§5 ТЗ) ───────── */
+/* ─── ContactButton: чистый градиент в аква-семействе (без мутного стыка с оранжем) ─ */
 .contact-btn {
-  background: linear-gradient(123deg, #0c1f1f 7%, #2e7b7e 37%, #44a1a4 72%, #ff9a00 100%);
+  background: linear-gradient(120deg, #2e7b7e 0%, #44a1a4 52%, #5bc4c7 100%);
   box-shadow:
-    0 4px 4px rgba(46, 123, 126, 0.25),
-    4px 4px 12px #2e7b7e inset;
-  outline: 2px solid #fff;
-  outline-offset: -3px;
+    0 6px 20px -6px rgba(68, 161, 164, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition:
+    filter 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+.contact-btn:hover {
+  filter: brightness(1.08) saturate(1.05);
+  box-shadow:
+    0 10px 26px -6px rgba(91, 196, 199, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 
 /* ─── Плейсхолдеры ассетов (до получения реальных скриншотов, Фаза 5) ────── */

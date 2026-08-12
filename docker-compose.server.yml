@@ -1,0 +1,29 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: portfolio_web:latest
+    container_name: portfolio_web
+    restart: unless-stopped
+    expose:
+      - "80"            # internal only — reachable by caddy, not published to host
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: portfolio_caddy
+    restart: unless-stopped
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"   # HTTP/3 (QUIC)
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data       # certificates & ACME state (must persist!)
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
