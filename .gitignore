@@ -18,3 +18,8 @@ node_modules/
 # logs
 npm-debug.log*
 *.log
+
+# secrets — deploy/SSH keys (NEVER commit)
+vpn_key
+vpn_key.*
+*.pem

@@ -11,3 +11,4 @@ npm-debug.log*
 .vscode
 .env
 .env.*
+vpn_key

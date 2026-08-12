@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+// Критичные подмножества Golos для preload: latin — вордмарк H1 и EN-текст; cyrillic — RU-текст.
+import golosLatin from "@fontsource-variable/golos-text/files/golos-text-latin-wght-normal.woff2?url";
+import golosCyrillic from "@fontsource-variable/golos-text/files/golos-text-cyrillic-wght-normal.woff2?url";
 
 interface Props {
   title: string;
@@ -20,6 +23,18 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="preload" href={golosLatin} as="font" type="font/woff2" crossorigin />
+    {
+      lang === "ru" && (
+        <link
+          rel="preload"
+          href={golosCyrillic}
+          as="font"
+          type="font/woff2"
+          crossorigin
+        />
+      )
+    }
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate" hreflang="ru" href={new URL("/", Astro.site)} />
     <link rel="alternate" hreflang="en" href={new URL("/en/", Astro.site)} />

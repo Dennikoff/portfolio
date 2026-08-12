@@ -65,6 +65,15 @@ public/images/projects/*  public/images/photo.png
 - **✅ Портрет** — `исходники/assets/photo.PNG` (2.4 МБ). При интеграции переложить в `public/images/photo.png`, ужать до WebP ≥1200px.
 - **⚠️ Скриншоты проектов (5×3) и плитки marquee (10–12) — нет.** В референсе они тоже плейсхолдеры (`shot: 'скриншот: …'`). До получения — плейсхолдеры с корректными `width/height`/`aspect-ratio` (нужно в Фазе 5, не блокирует 0–4).
 
+## Деплой (продакшн)
+
+- **Домен:** `dkharke.tech` (+ `www` → редирект на apex). Прописан в `astro.config.mjs` (`site`) и `Caddyfile`.
+- **Сервер:** Selectel, публичный IP `135.106.186.81`.
+- **Приватный ключ:** файл `vpn_key` в корне репо — **в гите его нет и не должно быть** (в `.gitignore`). Само содержимое ключа сюда не пишем.
+- **Схема:** GitHub Actions (`.github/workflows/deploy.yml`) на push в `main` → SSH на сервер → `docker compose -f docker-compose.server.yml up -d --build`. В контейнере multi-stage: Node собирает статику → nginx раздаёт. Впереди **Caddy** (reverse-proxy) держит 80/443 и авто-выпускает/продлевает Let's Encrypt TLS.
+- **Тома:** `caddy_data` обязателен — хранит сертификаты (иначе перевыпуск при каждом рестарте упрётся в лимит LE).
+- **Секреты GitHub:** vars `SSH_HOST` (`135.106.186.81`) / `SSH_PORT` (`22`) / `SSH_USER` (`root`); secret `SSH_KEY` = содержимое приватного ключа `vpn_key` (вход по паролю на сервере отключён — только ключ).
+
 ## Перформанс/доступность (планка: Lighthouse mobile 95+)
 
 Один общий `rAF` на все скролл-эффекты. `content-visibility:auto` на marquee и projects. Все картинки с размерами + `loading="lazy"` (кроме портрета: `fetchpriority="high"`). `prefers-reduced-motion` → выключить Lenis/Magnet/marquee/AnimatedText, всё в конечном состоянии. Семантика (`nav/header/section aria-labelledby/footer`, один `h1`, `alt`), тач-таргеты ≥44px.
