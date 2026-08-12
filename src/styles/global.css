@@ -132,21 +132,7 @@
    Вверху — плашка на всю ширину. После скролла (data-scrolled) на мобилке она
    превращается в «остров»: пилюля с отступами от краёв, бордером и стеклом. */
 [data-nav] {
-  /* Плашка/остров всегда ниже чёлки; саму чёлку накрывает .nav-scrim (стекло) */
-  padding-top: env(safe-area-inset-top);
   transition: padding 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Стеклянная полоска ровно на высоту safe-area (на устройствах без чёлки высота 0). */
-.nav-scrim {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: env(safe-area-inset-top);
-  z-index: 40;
-  pointer-events: none;
-  background: rgba(12, 12, 12, 0.6);
-  -webkit-backdrop-filter: blur(16px) saturate(1.4);
-  backdrop-filter: blur(16px) saturate(1.4);
 }
 [data-nav-bar] {
   transition:
@@ -165,9 +151,7 @@
 
 @media (max-width: 639px) {
   [data-nav][data-scrolled="true"] {
-    padding: calc(env(safe-area-inset-top) + 0.5rem)
-      max(0.75rem, env(safe-area-inset-right)) 0
-      max(0.75rem, env(safe-area-inset-left));
+    padding: 0.5rem 0.75rem;
   }
   [data-nav][data-scrolled="true"] [data-nav-bar] {
     border: 1px solid rgba(215, 226, 234, 0.16);
