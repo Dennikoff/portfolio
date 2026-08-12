@@ -1,5 +1,5 @@
 import type { Dict } from "./ru";
-
+ 
 // EN — тексты из объекта `en` референса. Тип Dict гарантирует те же ключи, что и в ru.
 export const en: Dict = {
   name: "Denis Kharke",
