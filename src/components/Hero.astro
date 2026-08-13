@@ -54,7 +54,7 @@ const tagline = `${t.heroTitle1} ${t.heroTitle2}`;
     class="absolute left-1/2 z-10 top-1/2 -translate-x-1/2 -translate-y-1/2 sm:top-auto sm:bottom-0 sm:translate-y-0 w-[280px] sm:w-[360px] md:w-[440px] lg:w-[520px]"
   >
     <FadeIn delay={0.6} y={30}>
-      <Magnet padding={150} strength={3} class="w-full">
+      <Magnet area="#top" strength={3} max={90} class="w-full">
         <img
           src="/myPhoto.webp"
           alt={lang === "ru" ? "Денис Харке" : "Denis Kharke"}

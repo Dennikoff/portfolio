@@ -12,6 +12,6 @@ document.querySelectorAll<HTMLElement>("[data-animated-text]").forEach((el) => {
   }
   scroll(
     animate(chars, { opacity: [0.2, 1] }, { delay: stagger(1 / chars.length) }),
-    { target: el, offset: ["start 0.8", "end 0.2"] },
+    { target: el, offset: ["start 0.95", "start 0.4"] },
   );
 });

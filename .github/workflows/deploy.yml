@@ -19,8 +19,26 @@ jobs:
           username: ${{ vars.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            set -eu
             cd ~/portfolio
-            git pull origin main
-            docker rm -f portfolio_web
-            docker compose -f docker-compose.server.yml up -d --build
+
+            # Приводим дерево РОВНО к origin/main. Раньше был `git pull`: он падает
+            # при любых локальных изменениях или конфликте, и деплой после этого
+            # молча собирался из старого кода. reset --hard + clean дают точное
+            # состояние ветки, включая удаление файлов, которых в main больше нет
+            # (переименованные картинки, снесённые компоненты).
+            # clean без -x: gitignored файлы (node_modules, .env) не трогаем.
+            git fetch --prune origin
+            git reset --hard origin/main
+            git clean -fd
+
+            # --force-recreate: контейнер пересоздаётся даже если compose считает,
+            # что менять нечего. Томов у web нет, поэтому новый контейнер = гарантированно
+            # чистая папка раздачи. --no-deps, чтобы не задеть caddy с сертификатами.
+            docker compose -f docker-compose.server.yml up -d --build --force-recreate --no-deps web
+
+            # Добираем остальное, если что-то лежит (например caddy после ребута).
+            # Его это не пересоздаёт — образ и конфиг не менялись.
+            docker compose -f docker-compose.server.yml up -d
+
             docker image prune -f

@@ -4,9 +4,11 @@
 interface Props {
   padding?: number;
   strength?: number;
+  area?: string; // CSS-селектор зоны активации (напр. секция hero): трекинг по всей зоне, а не только рядом
+  max?: number; // максимальный сдвиг в px (клэмп), чтобы голова не «улетала» на краях зоны
   class?: string;
 }
-const { padding = 150, strength = 3, class: cls } = Astro.props;
+const { padding = 150, strength = 3, area, max, class: cls } = Astro.props;
 ---
 
 <div
@@ -14,6 +16,8 @@ const { padding = 150, strength = 3, class: cls } = Astro.props;
   data-magnet
   data-padding={padding}
   data-strength={strength}
+  data-area={area}
+  data-max={max}
   style="will-change: transform;"
 >
   <slot />
