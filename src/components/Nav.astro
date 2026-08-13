@@ -16,6 +16,10 @@ const links = [
   { href: `${home}#about`, label: t.nav.about },
   { href: `${home}#contact`, label: t.nav.contact },
 ];
+
+// Вордмарк: на главной — скролл наверх (#top), на подстранице — уход на главную
+// в своей локали, чтобы с /privacy/ был выход.
+const wordmarkHref = home || "#top";
 ---
 
 <nav
@@ -27,7 +31,7 @@ const links = [
     data-nav-bar
     class="flex items-center justify-between border-b border-ink/10 bg-bg/70 px-6 py-4 backdrop-blur-md md:px-10 md:py-5"
   >
-    <a href="#top" class="font-mono font-medium text-ink text-base md:text-lg">
+    <a href={wordmarkHref} class="font-mono font-medium text-ink text-base md:text-lg">
       Denis Kharke
     </a>
 

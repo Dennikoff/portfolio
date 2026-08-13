@@ -33,9 +33,9 @@ export const projLinks = [
   // imgMobile/mobW/mobH — портретный скриншот телефона (показывается < md), imgDesktop — лендскейп (≥ md).
   { key: "gadius", url: "https://front.gadius.ru/", host: "front.gadius.ru", imgDesktop: "/desktop/ryadom1.webp", imgMobile: "/mobile/ryadom1.webp", mobW: 1320, mobH: 2682 },
   { key: "hpc", url: "https://hpc-park.ru/", host: "hpc-park.ru", imgDesktop: "/desktop/hpc-park1.webp", imgMobile: "/mobile/hpc-park1.webp", mobW: 1320, mobH: 2544 },
-  { key: "megalit", url: "https://www.megalit-gr.ru/", host: "megalit-gr.ru", imgDesktop: "/desktop/megalit.webp", imgMobile: "/mobile/megalit1.webp", mobW: 1320, mobH: 2535 },
-  { key: "juna", url: "https://juna-horse.ru/?content=comics", host: "juna-horse.ru", imgDesktop: "/desktop/juna1.webp", imgMobile: "/mobile/juna1.webp", mobW: 1320, mobH: 2501 },
   { key: "hpd", url: "https://hpd-expert.vercel.app/", host: "hpd-expert.vercel.app", imgDesktop: "/desktop/hpd-expert1.webp", imgMobile: "/mobile/hpd-expert1.webp", mobW: 1320, mobH: 2553 },
+  { key: "juna", url: "https://juna-horse.ru/?content=comics", host: "juna-horse.ru", imgDesktop: "/desktop/juna1.webp", imgMobile: "/mobile/juna1.webp", mobW: 1320, mobH: 2501 },
+  { key: "megalit", url: "https://www.megalit-gr.ru/", host: "megalit-gr.ru", imgDesktop: "/desktop/megalit.webp", imgMobile: "/mobile/megalit1.webp", mobW: 1320, mobH: 2535 },
 ] as const;
 
 /** Контактный email — нелокализованный. */

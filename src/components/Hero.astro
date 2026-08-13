@@ -4,7 +4,7 @@ import FadeIn from "./FadeIn.astro";
 import Magnet from "./Magnet.astro";
 import ContactButton from "./ContactButton.astro";
 import GhostButton from "./GhostButton.astro";
-import { useTranslations, telegram, type Lang } from "../i18n/utils";
+import { useTranslations, type Lang } from "../i18n/utils";
 
 interface Props {
   lang: Lang;
@@ -78,7 +78,7 @@ const tagline = `${t.heroTitle1} ${t.heroTitle2}`;
       {tagline}
     </p>
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-      <ContactButton href={telegram} target="_blank" rel="noopener">
+      <ContactButton>
         {t.ctaStart}
       </ContactButton>
       <GhostButton href="#work">{t.ctaWork}</GhostButton>

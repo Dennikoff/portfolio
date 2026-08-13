@@ -22,7 +22,7 @@
   --color-orange-hover: #ffab2e;
 
   /* Светлая секция (Услуги и цены) */
-  --color-paper: #ffffff;
+  --color-paper: #e8e8fa;
   --color-paper-ink: #22302f;
   --color-paper-secondary: #57696a;
   --color-mono-teal: #2e7b7e;
@@ -298,6 +298,173 @@
 
 @media (prefers-reduced-motion: reduce) {
   .legal a {
+    transition: none;
+  }
+}
+
+/* ─── Модалка выбора способа связи ──────────────────────────────────────────
+   Подложка намеренно БЕЗ backdrop-filter и с alpha ≥ 0.75: в iOS 26 она как
+   fixed-элемент на всю ширину попадает под сэмплирование, и Safari красит
+   область чёлки её цветом, приведённым к непрозрачному. При alpha 0.88 это
+   ровно #0C0C0C — то есть полоса сливается с подложкой. С backdrop-filter цвет
+   стал бы «неопределённым», и Safari взял бы фон страницы — лишний риск. */
+.cm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80; /* выше cookie-баннера (60) и навбара (50) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(1rem, env(safe-area-inset-top, 0px)) 1rem
+    max(1rem, env(safe-area-inset-bottom, 0px));
+  background: rgba(12, 12, 12, 0.88);
+  overscroll-behavior: contain;
+}
+/* display выше перебил бы display:none из UA-стилей. */
+.cm-overlay[hidden] {
+  display: none;
+}
+/* Фон не скроллится, пока модалка открыта (Lenis глушится в скрипте). */
+html.cm-open,
+html.cm-open body {
+  overflow: hidden;
+}
+
+.cm-card {
+  position: relative;
+  width: 100%;
+  max-width: 30rem;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 2rem 1.5rem 1.5rem;
+  border: 1px solid rgba(215, 226, 234, 0.16);
+  border-radius: 1.75rem;
+  background: rgba(20, 20, 20, 0.96);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+}
+
+.cm-title {
+  padding-right: 2.5rem; /* место под крестик */
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.cm-sub {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--color-ink-secondary);
+}
+
+.cm-x {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  color: var(--color-ink-secondary);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+.cm-x:hover {
+  color: var(--color-ink);
+  background: rgba(215, 226, 234, 0.08);
+}
+
+.cm-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+/* Способ связи — крупная область нажатия, иконка + подпись + значение. */
+.cm-option {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "icon text"
+    "icon hint";
+  align-items: center;
+  gap: 0 1rem;
+  min-height: 72px;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(215, 226, 234, 0.18);
+  border-radius: 1.25rem;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+.cm-option:hover {
+  border-color: var(--color-aqua);
+  background: rgba(68, 161, 164, 0.1);
+}
+.cm-option:active {
+  transform: scale(0.99);
+}
+
+.cm-icon {
+  grid-area: icon;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 9999px;
+  background: rgba(68, 161, 164, 0.16);
+  color: var(--color-aqua);
+}
+.cm-option:hover .cm-icon {
+  color: var(--color-aqua-hover);
+}
+
+.cm-text {
+  grid-area: text;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+.cm-label {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.cm-value {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-aqua);
+  overflow-wrap: anywhere;
+}
+.cm-hint {
+  grid-area: hint;
+  font-size: 0.8125rem;
+  color: var(--color-ink-secondary);
+}
+
+@keyframes cm-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cm-overlay:not([hidden]) .cm-card {
+  animation: cm-in 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cm-overlay:not([hidden]) .cm-card {
+    animation: none;
+  }
+  .cm-option,
+  .cm-x,
+  .cm-icon {
     transition: none;
   }
 }

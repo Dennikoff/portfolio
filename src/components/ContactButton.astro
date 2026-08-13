@@ -1,24 +1,42 @@
 ---
-// Pill с градиентной заливкой (§5 ТЗ). Рендерится как <a>. Стили заливки — в global.css (.contact-btn).
+// Единственная кнопка «Обсудить проект» на сайте. По умолчанию рендерится как
+// <button> и открывает модалку выбора способа связи (data-contact-open →
+// scripts/contact-modal.ts). variant отвечает ТОЛЬКО за внешний вид:
+//   solid — градиентная пилюля для тёмных секций (Hero, футер), стили .contact-btn
+//   paper — оранжевая заливка для белой секции цен (на тёмном #B36E00 не проходит AA)
+// href задаётся, только если в этом месте нужна обычная ссылка, а не модалка.
 interface Props {
-  href: string;
+  variant?: "solid" | "paper";
+  href?: string;
   target?: string;
   rel?: string;
   class?: string;
 }
-const { href, target, rel, class: cls } = Astro.props;
----
+const { variant = "solid", href, target, rel, class: cls } = Astro.props;
 
-<a
-  href={href}
-  target={target}
-  rel={rel}
-  class:list={[
-    "contact-btn inline-block rounded-full text-white font-medium uppercase tracking-widest",
+const base = "rounded-full font-medium uppercase tracking-widest";
+const looks = {
+  solid: [
+    "contact-btn inline-block text-white",
     "px-8 py-3 sm:px-10 sm:py-3.5 md:px-12 md:py-4 text-xs sm:text-sm md:text-base",
     "transition-transform active:scale-[0.98]",
-    cls,
-  ]}
->
-  <slot />
-</a>
+  ],
+  paper: [
+    "inline-block bg-orange text-paper-ink px-6 py-3",
+    "transition-colors hover:bg-orange-hover",
+  ],
+};
+const classes = [base, looks[variant], cls];
+---
+
+{
+  href ? (
+    <a href={href} target={target} rel={rel} class:list={classes}>
+      <slot />
+    </a>
+  ) : (
+    <button type="button" data-contact-open class:list={classes}>
+      <slot />
+    </button>
+  )
+}

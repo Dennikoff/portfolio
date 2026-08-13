@@ -35,46 +35,26 @@ const heading = lang === "ru" ? "обо мне" : "about";
     />
   </div>
 
-  {/* Две колонки: чип-группы навыков + таймлайн */}
+  {/* Стек: группы чипов по центру, в одну колонку под текстом */}
   <FadeIn
     delay={0.15}
-    class="mt-16 grid w-full max-w-5xl gap-14 sm:mt-20 md:mt-24 md:grid-cols-2"
+    class="mt-16 flex w-full max-w-2xl flex-col gap-8 sm:mt-20 md:mt-24"
   >
-    <div class="flex flex-col gap-8">
-      {
-        t.skillGroups.map((g) => (
-          <div>
-            <p class="mb-3 font-mono text-xs font-medium uppercase tracking-widest text-aqua">
-              {g.label}
-            </p>
-            <ul class="flex flex-wrap gap-2">
-              {g.items.map((item) => (
-                <li class="rounded-full border border-ink/25 px-3.5 py-1.5 text-sm text-ink">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))
-      }
-    </div>
-
-    <ul class="flex flex-col">
-      {
-        t.timeline.map((row, i) => (
-          <li
-            class:list={[
-              "flex items-baseline gap-4 py-4",
-              i > 0 && "border-t border-ink/15",
-            ]}
-          >
-            <span class="shrink-0 font-mono text-sm font-medium text-aqua">
-              {row.years}
-            </span>
-            <span class="text-ink-secondary">{row.what}</span>
-          </li>
-        ))
-      }
-    </ul>
+    {
+      t.skillGroups.map((g) => (
+        <div>
+          <p class="mb-3 text-center font-mono text-xs font-medium uppercase tracking-widest text-aqua">
+            {g.label}
+          </p>
+          <ul class="flex flex-wrap justify-center gap-2">
+            {g.items.map((item) => (
+              <li class="rounded-full border border-ink/25 px-3.5 py-1.5 text-sm text-ink">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
   </FadeIn>
 </section>

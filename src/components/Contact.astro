@@ -1,7 +1,7 @@
 ---
 import ContactButton from "./ContactButton.astro";
 import FadeIn from "./FadeIn.astro";
-import { useTranslations, email, telegram, socials, type Lang } from "../i18n/utils";
+import { useTranslations, email, socials, type Lang } from "../i18n/utils";
 
 interface Props {
   lang: Lang;
@@ -49,9 +49,8 @@ const anchors = [
           {email}
         </a>
         <div class="mt-8">
-          <ContactButton href={telegram} target="_blank" rel="noopener">
-            {t.ctaStart}
-          </ContactButton>
+          {/* Без href — открывает модалку выбора способа связи. */}
+          <ContactButton>{t.ctaStart}</ContactButton>
         </div>
       </div>
 
@@ -135,3 +134,13 @@ const anchors = [
     </div>
   </div>
 </footer>
+
+<style>
+  /* На узких экранах (<410px) уменьшаем заголовок, чтобы «Have a project?»
+     помещался в одну строку вплоть до 340px (обычный clamp упирается в пол 2.5rem). */
+  @media (max-width: 410px) {
+    #contact-heading {
+      font-size: clamp(1.6rem, 8.6vw, 2.5rem) !important;
+    }
+  }
+</style>

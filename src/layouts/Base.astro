@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import CookieBanner from "../components/CookieBanner.astro";
+import ContactModal from "../components/ContactModal.astro";
 // Критичные подмножества Golos для preload: latin — вордмарк H1 и EN-текст; cyrillic — RU-текст.
 import golosLatin from "@fontsource-variable/golos-text/files/golos-text-latin-wght-normal.woff2?url";
 import golosCyrillic from "@fontsource-variable/golos-text/files/golos-text-cyrillic-wght-normal.woff2?url";
@@ -60,6 +61,7 @@ const canonical = new URL(lang === "ru" ? path : `/en${path}`, Astro.site);
       <slot />
     </div>
 
+    <ContactModal lang={lang} />
     <CookieBanner lang={lang} />
 
     {
@@ -75,6 +77,7 @@ const canonical = new URL(lang === "ru" ? path : `/en${path}`, Astro.site);
 
     <script>
       import "../scripts/cookie-consent.ts";
+      import "../scripts/contact-modal.ts";
       import "../scripts/lenis.ts";
       import "../scripts/hero-fit.ts";
       import "../scripts/fade.ts";

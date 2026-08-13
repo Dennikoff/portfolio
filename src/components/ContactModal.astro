@@ -1,0 +1,68 @@
+---
+// Модалка выбора способа связи. Открывается любым [data-contact-open]
+// (см. ContactButton без href). Логика — src/scripts/contact-modal.ts.
+import { useTranslations, email, telegram, type Lang } from "../i18n/utils";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const tgHandle = "@dennikoff";
+---
+
+<div data-contact-modal class="cm-overlay" hidden>
+  <div
+    class="cm-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="cm-title"
+    aria-describedby="cm-sub"
+  >
+    <button type="button" data-contact-close class="cm-x" aria-label={t.contactModal.close}>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path
+          d="M6 6l12 12M18 6L6 18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"></path>
+      </svg>
+    </button>
+
+    <h2 id="cm-title" class="cm-title">{t.contactModal.title}</h2>
+    <p id="cm-sub" class="cm-sub">{t.contactModal.sub}</p>
+
+    <div class="cm-options">
+      <a href={telegram} target="_blank" rel="noopener" class="cm-option">
+        <span class="cm-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <path
+              d="M21.8 3.3 2.9 10.6c-.9.35-.88 1.63.03 1.95l4.3 1.5 1.65 5.1c.26.8 1.28 1 1.82.36l2.32-2.75 4.3 3.16c.62.46 1.51.13 1.7-.62l3.5-14.4c.2-.83-.63-1.53-1.42-1.2Z"
+              fill="currentColor"></path>
+          </svg>
+        </span>
+        <span class="cm-text">
+          <span class="cm-label">{t.contactModal.tgLabel}</span>
+          <span class="cm-value">{tgHandle}</span>
+        </span>
+        <span class="cm-hint">{t.contactModal.tgHint}</span>
+      </a>
+
+      <a href={`mailto:${email}`} class="cm-option">
+        <span class="cm-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22">
+            <path
+              d="M3 6.5A2.5 2.5 0 0 1 5.5 4h13A2.5 2.5 0 0 1 21 6.5v11a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5v-11Zm2.2-.5 6.8 5.1L18.8 6H5.2Z"
+              fill="currentColor"></path>
+          </svg>
+        </span>
+        <span class="cm-text">
+          <span class="cm-label">{t.contactModal.mailLabel}</span>
+          <span class="cm-value">{email}</span>
+        </span>
+        <span class="cm-hint">{t.contactModal.mailHint}</span>
+      </a>
+    </div>
+  </div>
+</div>

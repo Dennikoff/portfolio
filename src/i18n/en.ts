@@ -23,9 +23,19 @@ export const en: Dict = {
   skillsTitle: "Stack",
   expTitle: "Experience",
   expBody:
-    "In frontend since 2020, freelancing since 2021, in enterprise development since 2022. I have shipped a service-ordering platform, corporate sites, and landings, and I handle the full path from Figma to production.",
+    "In frontend since 2020. I have shipped a service-ordering platform, corporate sites, and landings, and I handle the full path from Figma to production.",
 
   contactTitle: "Have a project? Write me.",
+
+  contactModal: {
+    title: "How would you like to reach me?",
+    sub: "I usually reply within a day.",
+    tgLabel: "Telegram",
+    tgHint: "Message me on Telegram",
+    mailLabel: "Email",
+    mailHint: "Send an email",
+    close: "Close",
+  },
 
   footer: {
     privacy: "Privacy policy",
@@ -59,10 +69,10 @@ export const en: Dict = {
       shot: "screenshot: hpc-park.ru",
     },
     {
-      name: "Megalit Group",
-      tag: "Corporate site",
-      desc: "Site for a law firm: practice areas, team, and consultation requests",
-      shot: "screenshot: megalit-gr.ru",
+      name: "HPD Expert",
+      tag: "Landing",
+      desc: "Landing page for a medical course: program, speakers, and sign-up",
+      shot: "screenshot: hpd-expert.vercel.app",
     },
     {
       name: "Juna Horse",
@@ -71,10 +81,10 @@ export const en: Dict = {
       shot: "screenshot: juna-horse.ru",
     },
     {
-      name: "HPD Expert",
-      tag: "Landing",
-      desc: "Landing page for a medical course: program, speakers, and sign-up",
-      shot: "screenshot: hpd-expert.vercel.app",
+      name: "Megalit Group",
+      tag: "Corporate site",
+      desc: "Site for a law firm: practice areas, team, and consultation requests",
+      shot: "screenshot: megalit-gr.ru",
     },
   ],
 
@@ -132,11 +142,5 @@ export const en: Dict = {
       label: "ALSO",
       items: ["Figma to code", "Responsive layout", "REST API integration"],
     },
-  ],
-
-  timeline: [
-    { years: "2020", what: "Started frontend, self-taught" },
-    { years: "2021-now", what: "Freelance sites and landings" },
-    { years: "2022-now", what: "Enterprise frontend developer" },
   ],
 };
