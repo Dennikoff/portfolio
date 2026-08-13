@@ -10,6 +10,16 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 const year = 2026;
 const rights = lang === "ru" ? "Все права защищены." : "All rights reserved.";
+
+// Якоря абсолютные, а не «#work» — футер есть и на /privacy/, откуда
+// внутристраничный хэш никуда бы не привёл.
+const home = lang === "ru" ? "/" : "/en/";
+const anchors = [
+  { href: `${home}#work`, label: t.nav.work },
+  { href: `${home}#pricing`, label: t.nav.pricing },
+  { href: `${home}#about`, label: t.nav.about },
+  { href: `${home}#contact`, label: t.nav.contact },
+];
 ---
 
 <footer
@@ -68,8 +78,60 @@ const rights = lang === "ru" ? "Все права защищены." : "All righ
       </ul>
     </FadeIn>
 
-    <p class="mt-16 text-[13px] text-ink-secondary">
-      © {year} {t.name}. {rights}
-    </p>
+    {/* Нижняя строка: якоря, политика и управление согласием на cookie. */}
+    <div class="mt-16 border-t border-ink/15 pt-8">
+      <div class="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+        <nav
+          aria-label={t.footer.moreNav}
+          class="flex flex-wrap gap-x-6 gap-y-2 text-[13px]"
+        >
+          {
+            anchors.map((a) => (
+              <a
+                href={a.href}
+                class="py-1.5 uppercase tracking-wider text-ink-secondary transition-colors hover:text-aqua-hover"
+              >
+                {a.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="flex flex-col gap-2 text-[13px] md:items-end">
+          <a
+            href={`${home}privacy/`}
+            class="py-1.5 text-ink-secondary transition-colors hover:text-aqua-hover"
+          >
+            {t.footer.privacy}
+          </a>
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-1">
+            <button
+              type="button"
+              data-consent-open
+              class="py-1.5 text-ink-secondary transition-colors hover:text-aqua-hover"
+            >
+              {t.footer.cookieSettings}
+            </button>
+            <button
+              type="button"
+              data-consent-reject
+              class="py-1.5 text-ink-secondary transition-colors hover:text-aqua-hover"
+            >
+              {t.footer.cookieReject}
+            </button>
+          </div>
+          {/* Текущее состояние согласия — заполняет cookie-consent.ts. */}
+          <span
+            data-consent-state
+            data-label-on={t.footer.analyticsOn}
+            data-label-off={t.footer.analyticsOff}
+            class="font-mono text-[12px] text-ink-secondary/70"></span>
+        </div>
+      </div>
+
+      <p class="mt-8 text-[13px] text-ink-secondary">
+        © {year} {t.name}. {rights}
+      </p>
+    </div>
   </div>
 </footer>

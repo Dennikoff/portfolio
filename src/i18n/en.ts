@@ -3,7 +3,7 @@ import type { Dict } from "./ru";
 // EN — тексты из объекта `en` референса. Тип Dict гарантирует те же ключи, что и в ru.
 export const en: Dict = {
   name: "Denis Kharke",
-  nav: { work: "Work", pricing: "Pricing", about: "About" },
+  nav: { work: "Work", pricing: "Pricing", about: "About", contact: "Contact" },
 
   heroTitle1: "Frontend for landings,",
   heroTitle2: "sites, and web apps.",
@@ -25,7 +25,25 @@ export const en: Dict = {
   expBody:
     "In frontend since 2020, freelancing since 2021, in enterprise development since 2022. I have shipped a service-ordering platform, corporate sites, and landings, and I handle the full path from Figma to production.",
 
-  contactTitle: "Have a project in mind? Write me.",
+  contactTitle: "Have a project? Write me.",
+
+  footer: {
+    privacy: "Privacy policy",
+    cookieSettings: "Cookie settings",
+    cookieReject: "Reject cookies",
+    analyticsOn: "Analytics enabled",
+    analyticsOff: "Analytics disabled",
+    moreNav: "Secondary navigation",
+  },
+
+  cookies: {
+    title: "We use cookies",
+    body: "Analytics cookies help us understand how the site is used. They are not loaded without your consent.",
+    more: "Read more in the privacy policy",
+    accept: "Accept",
+    dismiss: "Reject",
+    label: "Cookie consent",
+  },
 
   projMeta: [
     {

@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import CookieBanner from "../components/CookieBanner.astro";
 // Критичные подмножества Golos для preload: latin — вордмарк H1 и EN-текст; cyrillic — RU-текст.
 import golosLatin from "@fontsource-variable/golos-text/files/golos-text-latin-wght-normal.woff2?url";
 import golosCyrillic from "@fontsource-variable/golos-text/files/golos-text-cyrillic-wght-normal.woff2?url";
@@ -15,6 +16,14 @@ const {
   description = "Denis Kharke — фронтенд-разработчик: лендинги, сайты и веб-приложения.",
   lang = "ru",
 } = Astro.props;
+
+// hreflang/canonical считаем от текущего пути, а не хардкодим на главную —
+// иначе подстраницы (например /privacy/) ссылались бы на корень.
+const stripped = Astro.url.pathname.replace(/^\/en(?=\/|$)/, "");
+const path = stripped === "" || stripped === "/" ? "/" : stripped.replace(/\/?$/, "/");
+const ruHref = new URL(path, Astro.site);
+const enHref = new URL(`/en${path}`, Astro.site);
+const canonical = new URL(lang === "ru" ? path : `/en${path}`, Astro.site);
 ---
 
 <!doctype html>
@@ -40,16 +49,32 @@ const {
       )
     }
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" hreflang="ru" href={new URL("/", Astro.site)} />
-    <link rel="alternate" hreflang="en" href={new URL("/en/", Astro.site)} />
-    <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site)} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="ru" href={ruHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={ruHref} />
     <title>{title}</title>
   </head>
   <body>
     <div class="root" style="overflow-x: clip;">
       <slot />
     </div>
+
+    <CookieBanner lang={lang} />
+
+    {
+      /* Сюда вставляется сниппет Яндекс.Метрики — ИМЕННО так, с type="text/plain".
+         Браузер не исполнит его как код; cookie-consent.ts пересоберёт тег в
+         настоящий <script> только после нажатия «Принять». Класть счётчик в
+         <head> обычным способом нельзя — он выстрелит до согласия.
+
+         <script type="text/plain" data-consent="analytics">
+           // (function(m,e,t,r,i,k,a){...})(window, document, ...); ym(NNNNNN, 'init', {...});
+         </script> */
+    }
+
     <script>
+      import "../scripts/cookie-consent.ts";
       import "../scripts/lenis.ts";
       import "../scripts/hero-fit.ts";
       import "../scripts/fade.ts";

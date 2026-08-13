@@ -1,0 +1,162 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Contact from "../../components/Contact.astro";
+import { useTranslations, email, type Lang } from "../../i18n/utils";
+
+const lang: Lang = "en";
+const t = useTranslations(lang);
+const updated = "13 August 2026";
+const description =
+  "Privacy policy for dkharke.tech: what data is collected, which cookies are used, and how to withdraw consent.";
+---
+
+<Base title={`Privacy policy — ${t.name}`} lang={lang} description={description}>
+  <Nav lang={lang} home="/en/" />
+
+  <main class="legal">
+    <div class="mx-auto max-w-3xl px-5 pb-24 pt-32 sm:px-8 sm:pt-40">
+      <h1>Privacy policy</h1>
+      <p class="legal-meta">Last updated: {updated}</p>
+
+      <h2>1. Who processes the data</h2>
+      <p>
+        <code>dkharke.tech</code> is a personal portfolio site. The data controller is
+        Denis Kharke. For any question about personal data:
+        <a href={`mailto:${email}`}>{email}</a>.
+      </p>
+
+      <h2>2. What data is collected</h2>
+      <p>
+        The site has no forms, no sign-up and no user accounts — contact happens
+        directly over email or Telegram. Data is collected in two cases.
+      </p>
+
+      <h3>Server logs</h3>
+      <p>
+        On every request the web server records the IP address, date and time, the
+        requested path, the response code and the browser User-Agent string. This is
+        needed to operate the site, diagnose failures and defend against attacks — the
+        legal basis is the controller's legitimate interest. Logs are kept for no more
+        than 30 days, then deleted, and are never used for profiling or advertising.
+      </p>
+
+      <h3>Analytics — only with your consent</h3>
+      <p>
+        If you press “Accept” in the banner, Yandex Metrica is loaded. It collects
+        anonymised statistics: pages viewed, referrer, device type, browser and
+        approximate region.
+      </p>
+      <p>
+        <strong>As of this revision, Metrica is not installed on the site</strong> — the
+        banner and the switch were built ahead of time. Until consent is given, no
+        third-party script loads at all: the counter's code sits in the markup in a
+        non-executable form and is activated only after you press “Accept”.
+      </p>
+
+      <h2>3. Cookies and local storage</h2>
+      <div class="legal-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Purpose</th>
+              <th>Lifetime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>dk.consent</code></td>
+              <td>localStorage, necessary</td>
+              <td>Stores your choice so you are not asked again</td>
+              <td>1 year</td>
+            </tr>
+            <tr>
+              <td><code>_ym_uid</code></td>
+              <td>cookie, analytics</td>
+              <td>Yandex Metrica visitor identifier</td>
+              <td>1 year</td>
+            </tr>
+            <tr>
+              <td><code>_ym_d</code></td>
+              <td>cookie, analytics</td>
+              <td>Date of first visit</td>
+              <td>1 year</td>
+            </tr>
+            <tr>
+              <td><code>_ym_isad</code></td>
+              <td>cookie, analytics</td>
+              <td>Whether an ad blocker is present</td>
+              <td>2 days</td>
+            </tr>
+            <tr>
+              <td><code>_ym_metrika_enabled</code></td>
+              <td>cookie, analytics</td>
+              <td>Checks that the counter is installed correctly</td>
+              <td>60 minutes</td>
+            </tr>
+            <tr>
+              <td><code>_ym_visorc_*</code></td>
+              <td>cookie, analytics</td>
+              <td>Session Replay (Webvisor) session identifier</td>
+              <td>session</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p>
+        The <code>dk.consent</code> entry is created only once you have made a choice
+        and stores that choice alone — without it the banner would have to appear on
+        every page. Every <code>_ym_*</code> entry appears strictly after consent and
+        is deleted when consent is withdrawn.
+      </p>
+
+      <h2>4. Sharing with third parties</h2>
+      <ul>
+        <li>
+          <strong>Hosting.</strong> The site runs on Selectel servers (Russia), where
+          the server logs are kept.
+        </li>
+        <li>
+          <strong>Analytics.</strong> With your consent, anonymised statistics are sent
+          to Yandex LLC and processed under its own policy.
+        </li>
+      </ul>
+      <p>
+        Data is never sold, never shared with ad networks, and never used for automated
+        decision-making about you.
+      </p>
+
+      <h2>5. Your rights</h2>
+      <ul>
+        <li>
+          <strong>Withdraw analytics consent</strong> at any time — the “Cookie
+          settings” and “Reject cookies” links in the footer of every page. On
+          withdrawal the Metrica cookies are deleted and the page reloads without the
+          counter.
+        </li>
+        <li>
+          <strong>Request information</strong> about the processing of your data, its
+          correction or its deletion — by email to
+          <a href={`mailto:${email}`}>{email}</a>. If you are in the EU/EEA, GDPR
+          rights of access, rectification, erasure, restriction, portability and
+          objection apply.
+        </li>
+        <li>
+          <strong>Delete cookies yourself</strong> — through your browser's site
+          settings.
+        </li>
+      </ul>
+
+      <h2>6. Changes to this policy</h2>
+      <p>
+        The current version is 1. On material changes the version is incremented and
+        consent is requested again. The date of the latest revision is shown at the top
+        of this page.
+      </p>
+    </div>
+  </main>
+
+  <Contact lang={lang} />
+</Base>

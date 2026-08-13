@@ -1,17 +1,32 @@
 ---
-import Placeholder from "./Placeholder.astro";
-import { projLinks, type Lang } from "../i18n/utils";
+import type { Lang } from "../i18n/utils";
 
 interface Props {
   lang: Lang;
 }
-const { lang } = Astro.props;
-const shot = lang === "ru" ? "скриншот" : "screenshot";
+const { lang: _lang } = Astro.props;
+
+// Плитки карусели: своя подборка (не привязана к 5 проектам).
+// d — лендскейп-скрин (≥ md), m — портретный скрин телефона (< md), w/h — его размеры (для CLS).
+// Правило: ryadom — все доступные, megalit — только один, остальные — оба варианта.
+// ryadom распределён по ленте, чтобы не шёл подряд.
+const shots = [
+  { d: "/desktop/ryadom1.webp", m: "/mobile/ryadom1.webp", w: 1320, h: 2682 },
+  { d: "/desktop/hpc-park1.webp", m: "/mobile/hpc-park1.webp", w: 1320, h: 2544 },
+  { d: "/desktop/ryadom2.webp", m: "/mobile/ryadom2.webp", w: 1320, h: 2682 },
+  { d: "/desktop/hpd-expert1.webp", m: "/mobile/hpd-expert1.webp", w: 1320, h: 2553 },
+  { d: "/desktop/juna1.webp", m: "/mobile/juna1.webp", w: 1320, h: 2501 },
+  { d: "/desktop/ryadom3.webp", m: "/mobile/ryadom3.webp", w: 1320, h: 2682 },
+  { d: "/desktop/hpc-park2.webp", m: "/mobile/hpc-park2.webp", w: 1320, h: 2008 },
+  { d: "/desktop/hpd-expert2.webp", m: "/mobile/hpd-expert2.webp", w: 1320, h: 2029 },
+  { d: "/desktop/juna2.webp", m: "/mobile/juna2.webp", w: 1320, h: 1304 },
+  { d: "/desktop/megalit.webp", m: "/mobile/megalit1.webp", w: 1320, h: 2535 },
+];
 
 // Две ленты; массив каждой утроен для бесшовности (marquee.ts двигает по скроллу).
 const rows = [
-  { tiles: [...projLinks], dir: "right" },
-  { tiles: [...projLinks].reverse(), dir: "left" },
+  { tiles: [...shots], dir: "right" },
+  { tiles: [...shots].reverse(), dir: "left" },
 ];
 ---
 
@@ -28,12 +43,23 @@ const rows = [
         data-marquee-dir={row.dir}
         class="flex gap-3 mb-3 last:mb-0 w-max will-change-transform"
       >
-        {[...row.tiles, ...row.tiles, ...row.tiles].map((p) => (
-          <Placeholder
-            label={`${shot}: ${p.host}`}
-            ratio="420 / 270"
-            class="w-[420px] shrink-0 rounded-2xl"
-          />
+        {[...row.tiles, ...row.tiles, ...row.tiles].map((s) => (
+          <div
+            class="w-[420px] shrink-0 overflow-hidden rounded-2xl"
+            style="aspect-ratio: 420 / 270"
+          >
+            <picture class="block h-full w-full">
+              <source media="(min-width: 768px)" srcset={s.d} />
+              <img
+                src={s.m}
+                alt=""
+                width={s.w}
+                height={s.h}
+                loading="lazy"
+                class="h-full w-full object-cover"
+              />
+            </picture>
+          </div>
         ))}
       </div>
     ))

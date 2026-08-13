@@ -202,6 +202,235 @@
   }
 }
 
+/* ─── Юридические страницы (политика конфиденциальности) ────────────────── */
+.legal h1 {
+  font-size: clamp(2rem, 6vw, 3.25rem);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+}
+.legal .legal-meta {
+  margin-top: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-ink-secondary);
+}
+.legal h2 {
+  margin-top: 3rem;
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  font-weight: 700;
+  color: var(--color-ink);
+}
+.legal h3 {
+  margin-top: 2rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--color-aqua);
+}
+.legal p,
+.legal li {
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-ink-secondary);
+}
+.legal strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+.legal ul {
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.legal li::marker {
+  color: var(--color-aqua);
+}
+.legal a {
+  color: var(--color-aqua);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+.legal a:hover {
+  color: var(--color-aqua-hover);
+}
+.legal code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  color: var(--color-ink);
+}
+
+/* Таблица cookie: на узких экранах скроллится внутри себя, страница — нет. */
+.legal .legal-table {
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  border: 1px solid rgba(215, 226, 234, 0.15);
+  border-radius: 1rem;
+}
+.legal table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+.legal th,
+.legal td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(215, 226, 234, 0.12);
+  color: var(--color-ink-secondary);
+}
+.legal th {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-ink);
+}
+.legal tbody tr:last-child th,
+.legal tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legal a {
+    transition: none;
+  }
+}
+
+/* ─── Cookie-баннер ─────────────────────────────────────────────────────────
+   Остров со стеклом у нижней кромки. Геометрия учитывает ту же особенность
+   iOS 26, что и навбар, но для нижнего края: банер не касается низа вьюпорта
+   (отступ на env(safe-area-inset-bottom)) и уже 90% ширины — значит Safari не
+   подкладывает непрозрачную полосу под home-indicator. */
+.cookie-banner {
+  position: fixed;
+  z-index: 60; /* выше навбара (50) */
+  left: max(6vw, env(safe-area-inset-left, 0px));
+  right: max(6vw, env(safe-area-inset-right, 0px));
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 0.75rem);
+  display: block;
+  padding: 1.25rem;
+  border: 1px solid rgba(215, 226, 234, 0.16);
+  border-radius: 2rem;
+  background: rgba(12, 12, 12, 0.82);
+  box-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.7);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+}
+/* Обязательно: display выше перебил бы display:none из UA-стилей. */
+.cookie-banner[hidden] {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .cookie-banner {
+    right: auto;
+    left: max(1.5rem, env(safe-area-inset-left, 0px));
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 1.5rem);
+    width: min(30rem, calc(100vw - 3rem));
+    padding: 1.5rem;
+  }
+}
+
+@keyframes cookie-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.cookie-banner:not([hidden]) {
+  animation: cookie-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Кнопки согласия и отказа — одинаковая геометрия и вес: равнозначность выбора
+   это единственное требование GDPR, за нарушение которого реально штрафуют.
+   Различаются только заливкой: «Принять» — аква, «Отклонить» — контур. */
+.cookie-accept,
+.cookie-reject {
+  min-height: 44px;
+  padding: 0 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+.cookie-accept:active,
+.cookie-reject:active {
+  transform: translateY(1px);
+}
+
+.cookie-accept {
+  background: var(--color-aqua);
+  color: #0c0c0c;
+}
+.cookie-accept:hover {
+  background: var(--color-aqua-hover);
+}
+
+.cookie-reject {
+  border: 1px solid rgba(215, 226, 234, 0.4);
+  color: var(--color-ink);
+}
+.cookie-reject:hover {
+  border-color: var(--color-aqua-hover);
+  background: rgba(215, 226, 234, 0.1);
+}
+
+/* Крестик — тоже отказ. Тач-таргет 44px при визуально мелкой иконке;
+   отрицательные margin'ы гасят его габарит, чтобы не распирал шапку баннера. */
+.cookie-x {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  margin: -0.75rem -0.5rem -0.75rem 0;
+  border-radius: 9999px;
+  color: var(--color-ink-secondary);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+.cookie-x:hover {
+  color: var(--color-ink);
+  background: rgba(215, 226, 234, 0.08);
+}
+
+.cookie-link {
+  color: var(--color-aqua);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+.cookie-link:hover {
+  color: var(--color-aqua-hover);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-banner:not([hidden]) {
+    animation: none;
+  }
+  .cookie-accept,
+  .cookie-reject,
+  .cookie-x,
+  .cookie-link {
+    transition: none;
+  }
+}
+
 /* ─── Бургер: три линии, при aria-expanded="true" складываются в крестик ─── */
 .burger span {
   position: absolute;

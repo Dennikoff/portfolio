@@ -4,15 +4,17 @@ import { useTranslations, type Lang } from "../i18n/utils";
 
 interface Props {
   lang: Lang;
+  /** База для якорей. Пусто на главной (#work), путь домой на подстраницах (/#work). */
+  home?: string;
 }
-const { lang } = Astro.props;
+const { lang, home = "" } = Astro.props;
 const t = useTranslations(lang);
 
 const links = [
-  { href: "#work", label: t.nav.work },
-  { href: "#pricing", label: t.nav.pricing },
-  { href: "#about", label: t.nav.about },
-  { href: "#contact", label: lang === "ru" ? "Контакт" : "Contact" },
+  { href: `${home}#work`, label: t.nav.work },
+  { href: `${home}#pricing`, label: t.nav.pricing },
+  { href: `${home}#about`, label: t.nav.about },
+  { href: `${home}#contact`, label: t.nav.contact },
 ];
 ---
 
