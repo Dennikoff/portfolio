@@ -2,6 +2,7 @@
 import GhostButton from "./GhostButton.astro";
 import FadeIn from "./FadeIn.astro";
 import { useTranslations, projLinks, type Lang } from "../i18n/utils";
+import { asset } from "../lib/assets";
 
 interface Props {
   lang: Lang;
@@ -97,8 +98,10 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
                 {side.slice(0, 2).map((sh) => (
                   <div class="min-h-0 overflow-hidden rounded-2xl">
                     <img
-                      src={sh.d}
+                      src={asset(sh.d).src}
                       alt={`${p.name} — ${p.host}`}
+                      width={asset(sh.d).width}
+                      height={asset(sh.d).height}
                       loading="lazy"
                       class:list={[
                         "h-full w-full object-cover",
@@ -110,8 +113,10 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
               </div>
               <div class="min-h-0 overflow-hidden rounded-2xl">
                 <img
-                  src={big.d}
+                  src={asset(big.d).src}
                   alt={`${p.name} — ${p.host}`}
+                  width={asset(big.d).width}
+                  height={asset(big.d).height}
                   loading="lazy"
                   class:list={[
                     "h-full w-full object-cover",
@@ -126,10 +131,10 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
               {mobShots.map((sh) => (
                 <div class="aspect-[1/2] min-w-0 flex-1 overflow-hidden rounded-2xl">
                   <img
-                    src={sh.m}
+                    src={asset(sh.m!).src}
                     alt={`${p.name} — ${p.host}`}
-                    width={sh.mobW}
-                    height={sh.mobH}
+                    width={asset(sh.m!).width}
+                    height={asset(sh.m!).height}
                     loading="lazy"
                     class="h-full w-full object-cover object-top"
                   />

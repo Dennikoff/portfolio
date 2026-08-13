@@ -1,5 +1,6 @@
 ---
 import type { Lang } from "../i18n/utils";
+import { asset } from "../lib/assets";
 
 interface Props {
   lang: Lang;
@@ -7,20 +8,22 @@ interface Props {
 const { lang: _lang } = Astro.props;
 
 // Плитки карусели: своя подборка (не привязана к 5 проектам).
-// d — лендскейп-скрин (≥ md), m — портретный скрин телефона (< md), w/h — его размеры (для CLS).
+// d — лендскейп-скрин (≥ md), m — портретный скрин телефона (< md).
+// Размеры для CLS берём из метаданных файла (asset().width/height), руками не
+// дублируем — иначе при замене картинки они молча разъедутся с реальностью.
 // Правило: ryadom — все доступные, megalit — только один, остальные — оба варианта.
 // ryadom распределён по ленте, чтобы не шёл подряд.
 const shots = [
-  { d: "/desktop/ryadom1.webp", m: "/mobile/ryadom1.webp", w: 1320, h: 2682 },
-  { d: "/desktop/hpc-park1.webp", m: "/mobile/hpc-park1.webp", w: 1320, h: 2544 },
-  { d: "/desktop/ryadom2.webp", m: "/mobile/ryadom2.webp", w: 1320, h: 2682 },
-  { d: "/desktop/hpd-expert1.webp", m: "/mobile/hpd-expert1.webp", w: 1320, h: 2553 },
-  { d: "/desktop/juna1.webp", m: "/mobile/juna1.webp", w: 1320, h: 2501 },
-  { d: "/desktop/ryadom3.webp", m: "/mobile/ryadom3.webp", w: 1320, h: 2682 },
-  { d: "/desktop/hpc-park2.webp", m: "/mobile/hpc-park2.webp", w: 1320, h: 2008 },
-  { d: "/desktop/hpd-expert2.webp", m: "/mobile/hpd-expert2.webp", w: 1320, h: 2029 },
-  { d: "/desktop/juna2.webp", m: "/mobile/juna2.webp", w: 1320, h: 1304 },
-  { d: "/desktop/megalit.webp", m: "/mobile/megalit1.webp", w: 1320, h: 2535 },
+  { d: "/desktop/ryadom1.webp", m: "/mobile/ryadom1.webp" },
+  { d: "/desktop/hpc-park1.webp", m: "/mobile/hpc-park1.webp" },
+  { d: "/desktop/ryadom2.webp", m: "/mobile/ryadom2.webp" },
+  { d: "/desktop/hpd-expert1.webp", m: "/mobile/hpd-expert1.webp" },
+  { d: "/desktop/juna1.webp", m: "/mobile/juna1.webp" },
+  { d: "/desktop/ryadom3.webp", m: "/mobile/ryadom3.webp" },
+  { d: "/desktop/hpc-park2.webp", m: "/mobile/hpc-park2.webp" },
+  { d: "/desktop/hpd-expert2.webp", m: "/mobile/hpd-expert2.webp" },
+  { d: "/desktop/juna2.webp", m: "/mobile/juna2.webp" },
+  { d: "/desktop/megalit.webp", m: "/mobile/megalit1.webp" },
 ];
 
 // Две ленты; массив каждой утроен для бесшовности (marquee.ts двигает по скроллу).
@@ -43,23 +46,26 @@ const rows = [
         data-marquee-dir={row.dir}
         class="flex gap-3 mb-3 last:mb-0 w-max will-change-transform"
       >
-        {[...row.tiles, ...row.tiles, ...row.tiles].map((s) => (
-          <div
-            class="aspect-[1/2] w-[140px] shrink-0 overflow-hidden rounded-xl md:aspect-[420/270] md:w-[420px] md:rounded-2xl"
-          >
-            <picture class="block h-full w-full">
-              <source media="(min-width: 768px)" srcset={s.d} />
-              <img
-                src={s.m}
-                alt=""
-                width={s.w}
-                height={s.h}
-                loading="lazy"
-                class="h-full w-full object-cover"
-              />
-            </picture>
-          </div>
-        ))}
+        {[...row.tiles, ...row.tiles, ...row.tiles].map((s) => {
+          const mob = asset(s.m);
+          return (
+            <div
+              class="aspect-[1/2] w-[140px] shrink-0 overflow-hidden rounded-xl md:aspect-[420/270] md:w-[420px] md:rounded-2xl"
+            >
+              <picture class="block h-full w-full">
+                <source media="(min-width: 768px)" srcset={asset(s.d).src} />
+                <img
+                  src={mob.src}
+                  alt=""
+                  width={mob.width}
+                  height={mob.height}
+                  loading="lazy"
+                  class="h-full w-full object-cover"
+                />
+              </picture>
+            </div>
+          );
+        })}
       </div>
     ))
   }

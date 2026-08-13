@@ -5,6 +5,8 @@ import Magnet from "./Magnet.astro";
 import ContactButton from "./ContactButton.astro";
 import GhostButton from "./GhostButton.astro";
 import { useTranslations, type Lang } from "../i18n/utils";
+// Импорт из src/ → Vite положит файл в /_astro/ с contenthash в имени.
+import photo from "../assets/myPhoto.webp";
 
 interface Props {
   lang: Lang;
@@ -56,10 +58,10 @@ const tagline = `${t.heroTitle1} ${t.heroTitle2}`;
     <FadeIn delay={0.6} y={30}>
       <Magnet area="#top" strength={3} max={90} class="w-full">
         <img
-          src="/myPhoto.webp"
+          src={photo.src}
           alt={lang === "ru" ? "Денис Харке" : "Denis Kharke"}
-          width="1024"
-          height="1536"
+          width={photo.width}
+          height={photo.height}
           fetchpriority="high"
           class="w-full max-h-[calc(100vh-6rem)] rounded-xl object-contain object-bottom"
         />
