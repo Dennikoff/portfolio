@@ -34,15 +34,29 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
       На мобиле — обычный поток. */}
   <div class="mx-auto max-w-6xl">
     {
-      projects.map((p, i) => (
+      projects.map((p, i) => {
+        // Скрины проекта (по 3). Раскладка §4.5 ТЗ: shots[0] — большой справа,
+        // shots[1]/[2] — стопка слева. pos — object-position (по умолчанию top).
+        // m есть не у всех скринов — мобильный ряд показывает только те, у кого он есть.
+        const imgs = p.shots as readonly {
+          d: string;
+          m?: string;
+          mobW?: number;
+          mobH?: number;
+          pos?: string;
+        }[];
+        const big = imgs[0];
+        const side = imgs.slice(1);
+        const mobShots = imgs.filter((s) => s.m);
+        return (
         <div
           data-stack-item
-          class="mb-8 last:mb-0 md:mb-0 md:flex md:h-screen md:items-start md:justify-center md:sticky md:top-0 md:pt-[3vh]"
+          class="mb-8 last:mb-0 md:mb-0 md:flex md:h-screen md:items-start md:justify-center md:sticky md:top-0 md:pt-[100px]"
         >
         <FadeIn class="w-full">
         <article
           data-stack-card
-          class="w-full rounded-[40px] border-2 border-ink bg-bg p-4 sm:rounded-[50px] sm:p-6 md:relative md:flex md:max-h-[85vh] md:flex-col md:overflow-hidden md:rounded-[60px] md:p-8"
+          class="w-full rounded-[40px] border-2 border-ink bg-bg p-4 sm:rounded-[50px] sm:p-6 md:relative md:flex md:h-[calc(100vh-180px)] md:flex-col md:overflow-hidden md:rounded-[60px] md:p-8"
           style={`top: calc(${i} * 1.1rem); transform-origin: top;`}
         >
           <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -75,23 +89,59 @@ const projects = t.projMeta.map((m, i) => ({ ...m, ...projLinks[i] }));
 
           <p class="mt-4 max-w-2xl text-ink-secondary">{p.desc}</p>
 
-          <div class="mt-6 overflow-hidden rounded-3xl md:mt-5 md:min-h-0 md:flex-1">
-            <picture class="block md:h-full">
-              <source media="(min-width: 768px)" srcset={p.imgDesktop} />
-              <img
-                src={p.imgMobile}
-                alt={`${p.name} — ${p.host}`}
-                width={p.mobW}
-                height={p.mobH}
-                loading="lazy"
-                class="w-full h-auto md:h-full md:w-full md:object-cover"
-              />
-            </picture>
+          <div class="mt-6 md:mt-5 md:min-h-0 md:flex-1">
+            {/* md+: слева колонка (2fr), справа большой (3fr) — как в §4.5 ТЗ.
+                Все ячейки тянутся на высоту карточки → верх и низ совпадают. */}
+            <div class="hidden h-full md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] md:gap-3">
+              <div class="grid h-full min-h-0 grid-rows-2 gap-3">
+                {side.slice(0, 2).map((sh) => (
+                  <div class="min-h-0 overflow-hidden rounded-2xl">
+                    <img
+                      src={sh.d}
+                      alt={`${p.name} — ${p.host}`}
+                      loading="lazy"
+                      class:list={[
+                        "h-full w-full object-cover",
+                        sh.pos === "bottom" ? "object-bottom" : "object-top",
+                      ]}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div class="min-h-0 overflow-hidden rounded-2xl">
+                <img
+                  src={big.d}
+                  alt={`${p.name} — ${p.host}`}
+                  loading="lazy"
+                  class:list={[
+                    "h-full w-full object-cover",
+                    big.pos === "bottom" ? "object-bottom" : "object-top",
+                  ]}
+                />
+              </div>
+            </div>
+
+            {/* mobile: портретные мобильные скрины в ряд (только те, у кого есть m). */}
+            <div class="flex gap-2 md:hidden">
+              {mobShots.map((sh) => (
+                <div class="aspect-[1/2] min-w-0 flex-1 overflow-hidden rounded-2xl">
+                  <img
+                    src={sh.m}
+                    alt={`${p.name} — ${p.host}`}
+                    width={sh.mobW}
+                    height={sh.mobH}
+                    loading="lazy"
+                    class="h-full w-full object-cover object-top"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </article>
         </FadeIn>
         </div>
-      ))
+        );
+      })
     }
   </div>
 </section>

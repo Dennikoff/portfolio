@@ -62,7 +62,7 @@ export const ru = {
   // Порядок соответствует projLinks в utils.ts (зипуются по индексу в Фазе 2).
   projMeta: [
     {
-      name: "Gadius",
+      name: "Рядом",
       tag: "Enterprise",
       desc: "Enterprise-платформа заказа услуг: сложные формы, роли и сценарии заказа",
       shot: "скриншот: front.gadius.ru",

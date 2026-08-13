@@ -57,7 +57,7 @@ export const en: Dict = {
 
   projMeta: [
     {
-      name: "Gadius",
+      name: "Ryadom",
       tag: "Enterprise app",
       desc: "Enterprise platform for ordering services: complex forms, roles, and order flows",
       shot: "screenshot: front.gadius.ru",
